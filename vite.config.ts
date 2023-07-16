@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [vue(), vueSetupExtend()],
   resolve: {
     alias: {
-      '@': './src'
+      '@': './src',
     }
   },
   css: {
@@ -20,5 +20,5 @@ export default defineConfig({
         `
       }
     }
-  }
+  },
 })
