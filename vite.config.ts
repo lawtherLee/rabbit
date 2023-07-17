@@ -18,6 +18,7 @@ export default defineConfig({
   plugins: [vue(), vueSetupExtend()],
   resolve: {
     alias: {
+      // '@':'./src' // 会引起热更新失效的问题
       '@': resolve(__dirname, './src'),
     }
   },

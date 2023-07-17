@@ -1,8 +1,8 @@
 <script lang='ts' setup>
-// import useStore from "@/store/index.ts";
-//
-// const {categoryStore} = useStore()
-// categoryStore.getCategory()
+import useStore from "@/store/index.ts";
+
+const {categoryStore} = useStore()
+categoryStore.getCategory()
 </script>
 
 <template>
@@ -10,7 +10,7 @@
     <li class="home">
       <router-link to="/">首页</router-link>
     </li>
-    <li><a href="#">美食2</a></li>
+    <li><a href="#">美食</a></li>
     <li><a href="#">餐厨</a></li>
     <li><a href="#">艺术</a></li>
     <li><a href="#">电器</a></li>

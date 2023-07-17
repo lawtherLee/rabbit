@@ -4,7 +4,7 @@ import request from "@/utils/request.ts";
 export default defineStore('category', {
   state: () => {
     return {
-      text: 1
+      list: []
     }
   },
   actions: {
@@ -12,6 +12,7 @@ export default defineStore('category', {
     async getCategory() {
       const res = await request.get('/home/category/head')
       console.log(res)
+      this.list = res.data.result
     }
   }
 })
