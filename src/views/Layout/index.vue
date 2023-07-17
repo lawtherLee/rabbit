@@ -1,12 +1,12 @@
 <script lang='ts' name="layout" setup>
-import AppTopNav from "./components/app-top-nav.vue";
-import AppHeader from "@/views/Layout/components/app-header.vue";
-import AppFooter from "@/views/Layout/components/app-footer.vue";
+import AppTopNav from "@/views/Layout/components/AppTopNav.vue";
+import AppHeader from "@/views/Layout/components/AppHeader.vue";
+import AppFooter from "@/views/Layout/components/AppFooter.vue";
 </script>
 <template>
-  <app-top-nav/>
-  <app-header/>
-  <app-footer/>
+  <AppTopNav/>
+  <AppHeader/>
+  <AppFooter/>
 </template>
 
 <style>

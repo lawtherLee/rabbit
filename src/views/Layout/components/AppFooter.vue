@@ -19,7 +19,7 @@
           <dt>下载APP</dt>
           <dd class="qrcode"><img src="@/assets/images/qrcode.jpg"/></dd>
           <dd class="download">
-            <span>扫描二维码</span>
+            <span>扫描二维码22</span>
             <span>立马下载APP</span>
             <a href="javascript:">下载页面</a>
           </dd>

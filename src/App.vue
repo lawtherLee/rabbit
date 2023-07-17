@@ -4,6 +4,7 @@
 
 <template>
   <router-view/>
+  12322
 </template>
 
 <style scoped>

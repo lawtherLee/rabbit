@@ -1,16 +1,16 @@
 <script lang='ts' setup>
-
-
+// import useStore from "@/store/index.ts";
+//
+// const {categoryStore} = useStore()
+// categoryStore.getCategory()
 </script>
 
 <template>
-
-
   <ul class="app-header-nav">
     <li class="home">
-      <RouterLink to="/">首页</RouterLink>
+      <router-link to="/">首页</router-link>
     </li>
-    <li><a href="#">美食</a></li>
+    <li><a href="#">美食2</a></li>
     <li><a href="#">餐厨</a></li>
     <li><a href="#">艺术</a></li>
     <li><a href="#">电器</a></li>
@@ -20,8 +20,6 @@
     <li><a href="#">服装</a></li>
     <li><a href="#">杂货</a></li>
   </ul>
-
-
 </template>
 
 <style lang="less" scoped>

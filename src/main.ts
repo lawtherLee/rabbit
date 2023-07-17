@@ -6,9 +6,14 @@ import 'normalize.css'
 // 引入公共样式
 import '@/assets/styles/common.less'
 import router from "@/router/index.ts";
+import {createPinia} from "pinia";
+
+// 引入pinia
+const pinia = createPinia()
 
 const app = createApp(App)
 
 
+app.use(pinia)
 app.use(router)
 app.mount('#app')

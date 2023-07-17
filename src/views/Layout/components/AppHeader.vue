@@ -1,15 +1,14 @@
 <script lang="ts" name="AppHeader" setup>
-//
-import AppHeaderNav from "@/views/Layout/components/app-header-nav.vue";
+import AppHeaderNav from "@/views/Layout/components/AppHeaderNav.vue";
 </script>
 
 <template>
   <header class="app-header">
     <div class="container">
       <h1 class="logo">
-        <RouterLink to="/">小兔鲜</RouterLink>
+        <router-link to="/">小兔鲜</router-link>
       </h1>
-      <app-header-nav/>
+      <AppHeaderNav/>
       <div class="search">
         <i class="iconfont icon-search"></i>
         <input placeholder="搜一搜" type="text"/>
@@ -89,7 +88,7 @@ import AppHeaderNav from "@/views/Layout/components/app-header-nav.vue";
         color: #fff;
         font-size: 12px;
         border-radius: 10px;
-        font-family: Arial;
+        font-family: Arial, serif;
       }
     }
   }
