@@ -1,18 +1,24 @@
-import {defineStore} from "pinia";
+import { defineStore } from "pinia";
 import request from "@/utils/request.ts";
+import { CategoryItem, IAxiosRes } from "@/types/data";
+import { topCategory } from "@/constant/home.ts";
 
-export default defineStore('category', {
-  state: () => {
+const defaultCategory = topCategory.map((item) => {
+  return {
+    name: item,
+  };
+});
+export default defineStore("category", {
+  state: function () {
     return {
-      list: []
-    }
+      list: defaultCategory as CategoryItem[],
+    };
   },
   actions: {
     // 获取分类数据
     async getCategory() {
-      const res = await request.get('/home/category/head')
-      console.log(res)
-      this.list = res.data.result
-    }
-  }
-})
+      const res = await request.get<IAxiosRes>("/home/category/head");
+      this.list = res.data.result;
+    },
+  },
+});
