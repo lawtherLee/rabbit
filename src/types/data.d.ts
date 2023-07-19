@@ -12,4 +12,5 @@ export type CategoryItem = {
   children: CategoryItem[];
   picture: string;
   goods: {}[];
+  open: boolean;
 };

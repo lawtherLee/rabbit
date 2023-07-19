@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import useStore from "@/store/index.ts";
 
+// 获取分类信息
 const { categoryStore } = useStore();
 categoryStore.getCategory();
 </script>
@@ -10,15 +11,29 @@ categoryStore.getCategory();
     <li class="home">
       <router-link to="/">首页</router-link>
     </li>
-    <li v-for="item in categoryStore.list" :key="item.id">
-      <a href="#">{{ item.name }}</a>
-      <div class="layer">
+    <!--    一级分类-->
+    <li
+      v-for="item in categoryStore.list"
+      :key="item.id"
+      @mouseenter="categoryStore.toggleSub(item.id, true)"
+      @mouseleave="categoryStore.toggleSub(item.id, false)"
+    >
+      <router-link
+        :to="'/category/' + item.id"
+        @click="categoryStore.toggleSub(item.id, false)"
+        >{{ item.name }}
+      </router-link>
+      <!--      二级分类-->
+      <div :class="{ 'open-sub': item.open }" class="layer">
         <ul>
           <li v-for="sub in item.children" :key="sub.id">
-            <a href="#">
+            <router-link
+              :to="'/category/sub/' + sub.id"
+              @click="categoryStore.toggleSub(item.id, false)"
+            >
               <img :src="sub.picture" alt="" />
               <p>{{ sub.name }}</p>
-            </a>
+            </router-link>
           </li>
         </ul>
       </div>
@@ -51,17 +66,18 @@ categoryStore.getCategory();
       }
     }
 
-    &:hover {
-      > a {
-        color: @xtxColor;
-        border-bottom: 1px solid @xtxColor;
-      }
-
-      > .layer {
-        height: 132px;
-        opacity: 1;
-      }
-    }
+    // 通过js处理二级分类显隐
+    //&:hover {
+    //  > a {
+    //    color: @xtxColor;
+    //    border-bottom: 1px solid @xtxColor;
+    //  }
+    //
+    //  > .layer {
+    //    height: 132px;
+    //    opacity: 1;
+    //  }
+    //}
   }
 }
 
@@ -104,5 +120,10 @@ categoryStore.getCategory();
       }
     }
   }
+}
+
+.open-sub {
+  height: 132px;
+  opacity: 1;
 }
 </style>

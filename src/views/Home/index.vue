@@ -1,7 +1,5 @@
 <script lang="ts" setup></script>
 
-<template>
-  <router-view />
-</template>
+<template>首页</template>
 
 <style scoped></style>

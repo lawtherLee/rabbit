@@ -1,13 +1,27 @@
-import {createRouter, createWebHashHistory} from "vue-router";
+import { createRouter, createWebHashHistory } from "vue-router";
 
 const router = createRouter({
   history: createWebHashHistory(),
   routes: [
     {
-      path: '/',
-      component: () => import('@/views/Layout/index.vue')
+      path: "/",
+      component: () => import("@/views/Layout/index.vue"),
+      children: [
+        {
+          path: "", // 默认子路由
+          component: () => import("@/views/Home/index.vue"),
+        },
+        {
+          path: "/category/:id",
+          component: () => import("@/views/Category/index.vue"),
+        },
+        {
+          path: "/category/sub/:id",
+          component: () => import("@/views/Category/sub.vue"),
+        },
+      ],
     },
-  ]
-})
+  ],
+});
 
-export default router
+export default router;

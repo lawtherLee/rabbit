@@ -1,7 +1,5 @@
 <script lang="ts" setup></script>
 
-<template>
-  <router-view />
-</template>
+<template>2级分类</template>
 
 <style scoped></style>
