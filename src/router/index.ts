@@ -21,6 +21,10 @@ const router = createRouter({
         },
       ],
     },
+    {
+      path: "/playground",
+      component: () => import("@/views/PlayGround/index.vue"),
+    },
   ],
 });
 
