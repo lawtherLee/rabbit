@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import HomeCategory from "@/views/Home/components/HomeCategory.vue";
 import HomeBanner from "@/views/Home/components/HomeBanner.vue";
+import HomeNews from "@/views/Home/components/HomeNews.vue";
 </script>
 
 <template>
@@ -11,6 +12,8 @@ import HomeBanner from "@/views/Home/components/HomeBanner.vue";
         <HomeCategory />
         <!-- banner轮播图 -->
         <HomeBanner />
+        <!--        新鲜好物-->
+        <HomeNews />
       </div>
     </div>
   </div>

@@ -29,3 +29,12 @@ export type HomeBanner = {
   id: string;
   type: string;
 };
+// 新鲜好物
+export type NewGoods = {
+  price: string;
+  name: string;
+  orderNum: number;
+  id: string;
+  picture: string;
+  desc: string;
+};
