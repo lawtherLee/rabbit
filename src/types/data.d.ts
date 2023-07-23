@@ -1,6 +1,6 @@
 // axios相应数据类型
-export interface IAxiosRes {
-  code: string;
+export interface IAxiosRes<T> {
+  code?: string;
   msg: string;
   result: T;
 }
@@ -21,4 +21,11 @@ export type CategoryItem = {
   picture: string;
   goods: GoodsType[];
   open: boolean;
+};
+// 轮播图类型
+export type HomeBanner = {
+  imgUrl: string;
+  hrefUrl: string;
+  id: string;
+  type: string;
 };

@@ -17,7 +17,9 @@ export default defineStore("category", {
   actions: {
     // 获取分类数据
     async getCategory() {
-      const res = await request.get<IAxiosRes>("/home/category/head");
+      const res = await request.get<IAxiosRes<CategoryItem[]>>(
+        "/home/category/head",
+      );
       res.data.result.forEach((item: CategoryItem) => {
         item.open = false;
       });

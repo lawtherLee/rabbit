@@ -1,8 +1,13 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import useStore from "@/store";
+
+const { homeStore } = useStore();
+homeStore.getBannerList();
+</script>
 <template>
   <div class="home-banner">
     <!-- 轮播图 -->
-    banner
+    <XtxCarousel :banners="homeStore.bannerList" autoplay />
   </div>
 </template>
 

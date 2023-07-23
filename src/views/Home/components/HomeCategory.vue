@@ -20,16 +20,38 @@ const getCurrentGoods = (goods: GoodsType[], id: number) => {
         v-for="item in categoryStore.list"
         :key="item.id"
         :class="{ active: currentId === item.id }"
-        @mouseenter="getCurrentGoods(item?.goods, item.id)"
+        @mouseenter="getCurrentGoods(item.goods, item.id)"
       >
         <RouterLink to="/">{{ item.name }}</RouterLink>
-        <RouterLink
-          v-for="sub in item.children?.slice(0, 2)"
-          :key="sub.id"
-          to="/"
-        >
-          {{ sub.name }}
-        </RouterLink>
+        <!--        渲染的内容-->
+        <template v-if="item.children">
+          <RouterLink
+            v-for="sub in item.children?.slice(0, 2)"
+            :key="sub.id"
+            to="/"
+          >
+            {{ sub.name }}
+          </RouterLink>
+        </template>
+        <!--        骨架屏-->
+        <template v-else>
+          <xtx-skeleton
+            :height="20"
+            :width="35"
+            animated
+            bg="hotpink"
+            fade
+            style="margin-left: 10px"
+          />
+          <xtx-skeleton
+            :height="20"
+            :width="35"
+            animated
+            bg="hotpink"
+            fade
+            style="margin-left: 10px"
+          />
+        </template>
       </li>
     </ul>
     <!-- 弹层 -->
