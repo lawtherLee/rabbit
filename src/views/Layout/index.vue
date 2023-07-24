@@ -8,7 +8,7 @@ import AppHeaderSticky from "@/views/Layout/components/AppHeaderSticky.vue";
   <AppTopNav />
   <AppHeader />
   <AppHeaderSticky />
-  <div style="height: 1000px">
+  <div>
     <router-view />
   </div>
   <AppFooter />

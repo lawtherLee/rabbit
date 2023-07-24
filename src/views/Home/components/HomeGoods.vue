@@ -4,7 +4,10 @@
       <RouterLink to="/">
         <img :src="item.picture" alt="" />
         <p class="name ellipsis">{{ item.name }}</p>
-        <p class="price">&yen;{{ item.price }}</p>
+        <p class="price">
+          <!--          作用域插槽-->
+          <slot :row="item"></slot>
+        </p>
       </RouterLink>
     </li>
   </ul>

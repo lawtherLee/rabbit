@@ -38,3 +38,10 @@ export type NewGoods = {
   picture: string;
   desc: string;
 };
+// 人气推荐
+export type HomeHotGoods = {
+  alt: string;
+  id: string;
+  picture: string;
+  title: string;
+};

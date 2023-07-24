@@ -9,14 +9,16 @@ homeStore.getNewGoods();
 
 <template>
   <div class="home-new">
-    <HomePannel subTitle="123" title="真的新鲜">
+    <HomePannel subTitle="新鲜出炉 品质靠谱" title="真的新鲜">
       <!--          更多-->
       <template #more>
         <XtxMore to="/goods"> 查看全部</XtxMore>
       </template>
       <!--          主体-->
       <template #body>
-        <HomeGoods :goods="homeStore.newGoods" />
+        <HomeGoods :goods="homeStore.newGoods">
+          <template v-slot="{ row }">&yen; {{ row.price }}</template>
+        </HomeGoods>
       </template>
     </HomePannel>
   </div>
