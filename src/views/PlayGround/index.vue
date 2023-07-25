@@ -1,8 +1,7 @@
-<script lang="ts" name="XtxSkeleton" setup></script>
+<script setup></script>
 
 <template>
-  演练场
-  <xtx-skeleton :height="100" :width="100" animated fade></xtx-skeleton>
+  <div></div>
 </template>
 
-<style scoped></style>
+<style lang="scss" scoped></style>
