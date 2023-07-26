@@ -2,13 +2,16 @@
 import HomeGoods from "@/views/Home/components/HomeGoods.vue";
 import HomePannel from "@/views/Home/components/HomePannel.vue";
 import useStore from "@/store";
+import { useSyncRequest } from "@/hooks";
 
 const { homeStore } = useStore();
-homeStore.getNewGoods();
+const homeNewsRef = useSyncRequest(() => {
+  homeStore.getNewGoods();
+});
 </script>
 
 <template>
-  <div class="home-new">
+  <div ref="homeNewsRef" class="home-new">
     <HomePannel subTitle="新鲜出炉 品质靠谱" title="真的新鲜">
       <!--          更多-->
       <template #more>

@@ -4,9 +4,12 @@ import useStore from "@/store";
 import HomeGoods from "@/views/Home/components/HomeGoods.vue";
 import { computed } from "vue";
 import { GoodsType } from "@/types/data";
+import { useSyncRequest } from "@/hooks";
 
 const { homeStore } = useStore();
-homeStore.getHotGoods();
+const homeHotRef = useSyncRequest(() => {
+  homeStore.getHotGoods();
+});
 
 // 规避类型检查 计算属性重新处理数据
 const goods = computed<GoodsType[]>(() => {
@@ -22,7 +25,7 @@ const goods = computed<GoodsType[]>(() => {
 </script>
 
 <template>
-  <div class="home-hot">
+  <div ref="homeHotRef" class="home-hot">
     <HomePannel sub-title="人气爆款 不容错过" title="人气推荐">
       <template #body>
         <HomeGoods :goods="goods">

@@ -15,7 +15,6 @@ export default function (app: App) {
   // 自定义指令 懒加载
   app.directive("lazy", {
     mounted(el, binding) {
-      console.log(binding);
       const { stop } = useIntersectionObserver(el, ([{ isIntersecting }]) => {
         if (isIntersecting) {
           el.src = binding.value;
