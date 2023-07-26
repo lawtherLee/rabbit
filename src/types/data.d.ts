@@ -45,3 +45,14 @@ export type HomeHotGoods = {
   picture: string;
   title: string;
 };
+// 热门品牌
+export type HomeBrand = {
+  desc: string;
+  id: string;
+  logo: string;
+  name: string;
+  nameEn: string;
+  picture: string;
+  place: string;
+  type: null;
+};
