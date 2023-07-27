@@ -2,27 +2,43 @@
 import HomePannel from "@/views/Home/components/HomePannel.vue";
 import { useSyncRequest } from "@/hooks/index.ts";
 import useStore from "@/store";
+import { ref } from "vue";
 
 const { homeStore } = useStore();
 
 const brandRef = useSyncRequest(() => {
-  console.log(1);
   homeStore.getBrandList();
 });
+
+// 切换
+const currentIndex = ref(0);
 </script>
 
 <template>
   <div ref="brandRef">
     <HomePannel sub-title="国际经典 品质保证" title="热门品牌">
       <template v-slot:more>
-        <a class="iconfont icon-angle-left prev" href="javascript:"></a>
-        <a class="iconfont icon-angle-right next" href="javascript:"></a>
+        <a
+          :class="{ disabled: currentIndex === 0 }"
+          class="iconfont icon-angle-left prev"
+          href="javascript:"
+          @click="currentIndex = 0"
+        />
+        <a
+          :class="{ disabled: currentIndex === 1 }"
+          class="iconfont icon-angle-right next"
+          href="javascript:"
+          @click="currentIndex = 1"
+        />
       </template>
 
       <template #body>
         <transition>
           <div v-if="homeStore.brandList.length" ref="box" class="box">
-            <ul class="list">
+            <ul
+              :style="{ transform: `translateX(-${currentIndex * 1240}px)` }"
+              class="list"
+            >
               <li v-for="item in homeStore.brandList" :key="item.id">
                 <RouterLink to="/">
                   <img v-lazy="item.picture" alt="" />

@@ -5,6 +5,7 @@ import {
   HomeBanner,
   HomeBrand,
   HomeHotGoods,
+  HomeProduct,
   IAxiosRes,
 } from "@/types/data";
 
@@ -15,6 +16,7 @@ export default defineStore("home", {
       newGoods: [] as GoodsType[],
       hotGoods: [] as HomeHotGoods[],
       brandList: [] as HomeBrand[],
+      productList: [] as HomeProduct[],
     };
   },
   actions: {
@@ -33,6 +35,10 @@ export default defineStore("home", {
     async getBrandList() {
       const res = await request.get<IAxiosRes<HomeBrand[]>>("/home/brand");
       this.brandList = res.data.result;
+    },
+    async getProductList() {
+      const res = await request.get<IAxiosRes<HomeProduct[]>>("/home/goods");
+      this.productList = res.data.result;
     },
   },
 });
