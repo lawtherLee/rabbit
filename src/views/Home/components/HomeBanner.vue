@@ -2,6 +2,7 @@
 import useStore from "@/store";
 
 const { homeStore } = useStore();
+
 homeStore.getBannerList();
 </script>
 <template>

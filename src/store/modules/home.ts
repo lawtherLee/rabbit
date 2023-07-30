@@ -21,6 +21,7 @@ export default defineStore("home", {
   },
   actions: {
     async getBannerList() {
+      if (this.bannerList.length) return;
       const res = await request.get<IAxiosRes<HomeBanner[]>>("/home/banner");
       this.bannerList = res.data.result;
     },

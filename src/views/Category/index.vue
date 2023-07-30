@@ -7,6 +7,9 @@ import CategoryGoods from "@/views/Category/components/CategoryGoods.vue";
 
 const route = useRoute();
 const { categoryStore, homeStore } = useStore();
+// 获取banner
+homeStore.getBannerList();
+
 // watch(
 //   () => route.params.id,
 //   (val) => {
