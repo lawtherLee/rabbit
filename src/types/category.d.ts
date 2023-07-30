@@ -1,4 +1,6 @@
 // 一级分类详情
+import { GoodsType } from "@/types/data";
+
 export type TopCategory = {
   id: string;
   name: string;
@@ -8,7 +10,7 @@ export type TopCategory = {
 export type SubCategory = {
   brands: null;
   categories: null;
-  goods: any;
+  goods: GoodsType[];
   id: string;
   name: string;
   parentId: null;

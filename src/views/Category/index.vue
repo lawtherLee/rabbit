@@ -3,6 +3,7 @@ import useStore from "@/store";
 import { useRoute } from "vue-router";
 import { watchEffect } from "vue";
 import CategorySub from "@/views/Category/components/CategorySub.vue";
+import CategoryGoods from "@/views/Category/components/CategoryGoods.vue";
 
 const route = useRoute();
 const { categoryStore, homeStore } = useStore();
@@ -38,10 +39,16 @@ watchEffect(() => {
     <xtx-carousel :banners="homeStore.bannerList" style="height: 500px" />
     <!--    二级分类-->
     <category-sub />
+    <!--    分类商品-->
+    <category-goods
+      v-for="item in categoryStore.topCategory.children"
+      :key="item.id"
+      :sub-category="item"
+    />
   </div>
 </template>
 
-<style scoped>
+<style lang="less" scoped>
 .category-container {
   width: 1240px;
   margin: auto;
