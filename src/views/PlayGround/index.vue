@@ -1,7 +1,9 @@
-<script setup></script>
+<script lang="ts" name="PlayGround" setup>
+console.log();
+</script>
 
 <template>
-  <div></div>
+  <div>11</div>
 </template>
 
 <style lang="scss" scoped></style>

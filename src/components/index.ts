@@ -3,10 +3,12 @@ import { App } from "vue";
 import XtxSkeleton from "@/components/skeleton/index.vue";
 import XtxCarousel from "@/components/carousel/index.vue";
 import XtxMore from "@/components/more/index.vue";
+import XtxBreadItem from "@/components/breadItem/index.vue";
+import XtxBread from "@/components/bread/index.vue";
 import { useIntersectionObserver } from "@vueuse/core";
 import defaultImg from "@/assets/images/200.png";
 
-const components = [XtxSkeleton, XtxCarousel, XtxMore];
+const components = [XtxSkeleton, XtxCarousel, XtxMore, XtxBread, XtxBreadItem];
 
 export default function (app: App) {
   components.forEach((comp) => {

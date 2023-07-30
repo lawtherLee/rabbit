@@ -179,7 +179,7 @@ const productRef = useSyncRequest(() => {
     &.ellipsis-2 {
       width: 160px;
       overflow: hidden;
-      white-space: nowrap;
+      //white-space: nowrap;
       text-overflow: ellipsis;
     }
 
