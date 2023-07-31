@@ -1,6 +1,10 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 
 const router = createRouter({
+  scrollBehavior() {
+    // 切换路由的时候回到顶部
+    return { top: 0 };
+  },
   history: createWebHashHistory(),
   routes: [
     {
