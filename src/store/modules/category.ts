@@ -14,6 +14,7 @@ export default defineStore("category", {
     return {
       list: defaultCategory as CategoryItem[],
       topCategory: {} as TopCategory,
+      subCategory: {}, // 二级类目数据
     };
   },
   actions: {
@@ -37,6 +38,12 @@ export default defineStore("category", {
         "/category?id=" + id,
       );
       this.topCategory = res.data.result;
+    },
+    async getSubCategory(id: string) {
+      const res = await request.get<IAxiosRes<any>>(
+        "/category/sub/filter?id=" + id,
+      );
+      console.log(res);
     },
   },
 });
