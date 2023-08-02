@@ -1,6 +1,15 @@
 // 一级分类详情
 import { GoodsType } from "@/types/data";
 
+export type CaleProp = {
+  id: string;
+  name: string;
+};
+export type Cale = {
+  id: string;
+  name: string;
+  properties: CaleProp[];
+};
 export type TopCategory = {
   id: string;
   name: string;
@@ -16,5 +25,5 @@ export type SubCategory = {
   parentId: null;
   parentName: null;
   picture: string;
-  saleProperties: null;
+  saleProperties: Cale[];
 };
