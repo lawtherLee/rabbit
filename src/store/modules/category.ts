@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import request from "@/utils/request.ts";
 import { CategoryItem, IAxiosRes } from "@/types/data";
 import { topCategory } from "@/constant/home.ts";
-import { TopCategory } from "@/types/category";
+import { SubCategory, TopCategory } from "@/types/category";
 
 const defaultCategory = topCategory.map((item) => {
   return {
@@ -14,7 +14,7 @@ export default defineStore("category", {
     return {
       list: defaultCategory as CategoryItem[],
       topCategory: {} as TopCategory,
-      subCategory: {}, // 二级类目数据
+      subCategory: {} as SubCategory, // 二级类目数据
     };
   },
   actions: {
@@ -40,9 +40,10 @@ export default defineStore("category", {
       this.topCategory = res.data.result;
     },
     async getSubCategory(id: string) {
-      const res = await request.get<IAxiosRes<any>>(
+      const res = await request.get<IAxiosRes<SubCategory>>(
         "/category/sub/filter?id=" + id,
       );
+      this.subCategory = res.data.result;
       console.log(res);
     },
   },
