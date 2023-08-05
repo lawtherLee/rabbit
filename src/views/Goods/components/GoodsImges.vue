@@ -1,5 +1,5 @@
 <script lang="ts" name="GoodsImage" setup>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useMouseInElement } from "@vueuse/core";
 
 const active = ref(0);
@@ -10,27 +10,45 @@ defineProps<{
 // 控制遮照大图
 const target = ref(null);
 const { isOutside, elementY, elementX } = useMouseInElement(target);
-console.log(isOutside);
+const position = computed(() => {
+  let top = elementY.value - 100,
+    left = elementX.value - 100;
+  if (left <= 0) left = 0;
+  if (left >= 200) left = 200;
+  if (top <= 0) top = 0;
+  if (top >= 200) top = 200;
+  return {
+    top,
+    left,
+  };
+});
 </script>
 <template>
   <div class="goods-image">
     <!--    大图-->
     <div
       v-show="!isOutside"
-      :style="[{ backgroundImage: `url(${goodsImg[active]})` }]"
+      :style="[
+        {
+          backgroundImage: `url(${goodsImg[active]})`,
+          backgroundPosition: `-${position.left * 2}px -${position.top * 2}px`,
+        },
+      ]"
       class="large"
     />
+    <!--    头图-->
     <div ref="target" class="middle">
       <img :src="goodsImg[active]" alt="" />
       <div
         v-show="!isOutside"
         :style="{
-          top: elementY + 'px',
-          left: elementX + 'px',
+          top: position.top + 'px',
+          left: position.left + 'px',
         }"
         class="layer"
       />
     </div>
+    <!--    小图-->
     <ul class="small">
       <li
         v-for="(item, index) in goodsImg"
