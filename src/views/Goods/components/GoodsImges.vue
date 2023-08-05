@@ -1,18 +1,24 @@
-<script lang="ts" name="GoodsImage" setup></script>
+<script lang="ts" name="GoodsImage" setup>
+import { ref } from "vue";
+
+const active = ref(0);
+defineProps<{
+  goodsImg: string[];
+}>();
+</script>
 <template>
   <div class="goods-image">
     <div class="middle">
-      <img
-        alt=""
-        src="https://yanxuan-item.nosdn.127.net/4356c9fc150753775fe56b465314f1eb.png"
-      />
+      <img :src="goodsImg[active]" alt="" />
     </div>
     <ul class="small">
-      <li v-for="item in 5" :key="item" :class="{ active: item === 1 }">
-        <img
-          alt=""
-          src="https://yanxuan-item.nosdn.127.net/4356c9fc150753775fe56b465314f1eb.png"
-        />
+      <li
+        v-for="(item, index) in goodsImg"
+        :key="item"
+        :class="{ active: active === index }"
+        @click="active = index"
+      >
+        <img :src="item" alt="" />
       </li>
     </ul>
   </div>
