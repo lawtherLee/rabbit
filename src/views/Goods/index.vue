@@ -29,6 +29,7 @@ goodsStore.getGoodsInfo(route.params.goodsId as string);
         <div class="spec"></div>
       </div>
     </div>
+    <div v-else class="container">骨架屏加载中</div>
   </div>
 </template>
 
