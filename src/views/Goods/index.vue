@@ -2,7 +2,9 @@
 import { useRoute } from "vue-router";
 import useStore from "@/store";
 import GoodsImages from "@/views/Goods/components/GoodsImges.vue";
-import { storeToRefs } from "pinia"; // 响应式
+import { storeToRefs } from "pinia";
+import GoodsSales from "@/views/Goods/components/GoodsSales.vue";
+import GoodsName from "@/views/Goods/components/GoodsName.vue"; // 响应式
 
 const route = useRoute();
 const { goodsStore } = useStore();
@@ -25,8 +27,11 @@ goodsStore.getGoodsInfo(route.params.goodsId as string);
       <div class="goods-info">
         <div class="media">
           <GoodsImages :goodsImg="goods.mainPictures"></GoodsImages>
+          <GoodsSales />
         </div>
-        <div class="spec"></div>
+        <div class="spec">
+          <GoodsName :goods="goods" />
+        </div>
       </div>
     </div>
     <div v-else class="container">骨架屏加载中</div>
