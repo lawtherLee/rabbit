@@ -24,3 +24,10 @@ export type GoodsInfo = {
     name: string;
   }[];
 };
+// 城市类型
+export type CityList = {
+  areaList: CityList[];
+  code: string;
+  level: number;
+  name: string;
+};
