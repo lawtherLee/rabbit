@@ -4,6 +4,11 @@ import { onClickOutside } from "@vueuse/core";
 import axios from "axios";
 import { CityList } from "@/types/goods"; // 点击组件外隐藏城市选择
 
+defineProps<{
+  address: string;
+}>();
+
+const emit = defineEmits(["changeAddress"]);
 // 点击组件外隐藏城市选择
 const showCity = ref(false);
 const target = ref(null);
@@ -45,6 +50,7 @@ const onSelectCity = (city: CityList) => {
     selectCity.value.countyCode = city.code;
     selectCity.value.countyName = city.name;
     showCity.value = false; // 关闭选择框
+    emit("changeAddress", selectCity.value);
     return;
   }
   cityList.value = city.areaList;
@@ -63,7 +69,8 @@ watch(showCity, () => {
       class="select"
       @click="showCity = !showCity"
     >
-      <span class="placeholder">请选择配送地址</span>
+      <span v-if="address" class="placeholder">{{ address }}</span>
+      <span v-else class="placeholder">请选择配送地址</span>
       <span class="value"></span>
       <i class="iconfont icon-angle-down"></i>
     </div>
