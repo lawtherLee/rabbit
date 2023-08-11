@@ -2,8 +2,8 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "http://pcapi-xiaotuxian-front.itheima.net/",
-  // baseURL: 'http://apipc-xiaotuxian-front.itheima.net/'
+  // baseURL: "http://pcapi-xiaotuxian-front.itheima.net/",
+  baseURL: "http://apipc-xiaotuxian-front.itheima.net/",
 });
 
 // 添加请求拦截器

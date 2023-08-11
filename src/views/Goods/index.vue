@@ -4,7 +4,8 @@ import useStore from "@/store";
 import GoodsImages from "@/views/Goods/components/GoodsImges.vue";
 import { storeToRefs } from "pinia";
 import GoodsSales from "@/views/Goods/components/GoodsSales.vue";
-import GoodsName from "@/views/Goods/components/GoodsName.vue"; // 响应式
+import GoodsName from "@/views/Goods/components/GoodsName.vue";
+import GoodsSku from "@/views/Goods/components/GoodsSku.vue"; // 响应式
 
 const route = useRoute();
 const { goodsStore } = useStore();
@@ -31,6 +32,7 @@ goodsStore.getGoodsInfo(route.params.goodsId as string);
         </div>
         <div class="spec">
           <GoodsName :goods="goods" />
+          <GoodsSku :goods="goods" />
         </div>
       </div>
     </div>

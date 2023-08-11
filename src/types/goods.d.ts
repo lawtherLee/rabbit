@@ -1,4 +1,14 @@
 // 商品模块的类型声明
+export type SpecVal = {
+  desc: string;
+  name: string;
+  picture: string;
+  selected: boolean;
+};
+export type Spec = {
+  name: string;
+  values: SpecVal[];
+};
 export type GoodsInfo = {
   id: string;
   name: string;
@@ -23,6 +33,7 @@ export type GoodsInfo = {
     id: string;
     name: string;
   }[];
+  specs: Spec[];
 };
 // 城市类型
 export type CityList = {
