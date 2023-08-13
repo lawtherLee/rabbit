@@ -7,6 +7,7 @@ const props = defineProps<{
 }>();
 // 切换选中状态
 const changeSelected = (row: SpecVal, specVal: SpecVal[]) => {
+  if (row.disabled) return;
   if (row.selected) {
     row.selected = false;
   } else {
@@ -15,6 +16,9 @@ const changeSelected = (row: SpecVal, specVal: SpecVal[]) => {
     });
     row.selected = true;
   }
+  // 更新点击后的禁用状态
+  // 1.获取当前选中状态
+  upDateSpecBtnDisable();
 };
 // sku禁用状态
 // 1.筛选所有有效sku
@@ -34,19 +38,35 @@ optional().forEach((sku) => {
 });
 // 4.默认选中 根据每一项的值和组合的值 去路径字典查找
 const upDateSpecBtnDisable = () => {
-  props.goods.specs.forEach((spec) => {
+  const selectedArr = getSelected();
+  // console.log(selectedArr);
+  props.goods.specs.forEach((spec, index) => {
     spec.values.forEach((specBtn) => {
-      const isSpec = pathMap[specBtn.name];
-      if (!isSpec) {
-        specBtn.disabled = true;
-      } else {
-        specBtn.disabled = false;
-      }
+      const tempArr = [...selectedArr]; // 浅拷贝用于路径拼接
+      // console.log(tempArr);
+      tempArr[index] = specBtn.name;
+      const pathKey = tempArr.filter((i) => i).join("+"); // 过滤空字符串
+      const isSpec = pathMap[pathKey]; // 去路径字典查找
+      specBtn.disabled = !isSpec;
     });
   });
 };
+// 获取当前选中状态
+const getSelected = () => {
+  const selectedArr: string[] = [];
+  props.goods.specs.forEach((spec, index) => {
+    selectedArr.push("");
+    spec.values.forEach((val) => {
+      if (val.selected) {
+        selectedArr[index] = val.name;
+      }
+    });
+  });
+  return selectedArr;
+};
 upDateSpecBtnDisable();
 </script>
+
 <template>
   <div class="goods-sku">
     <dl v-for="item in goods.specs">
