@@ -7,6 +7,7 @@ const props = defineProps<{
   skuId: string;
 }>();
 
+const emit = defineEmits(["getSku"]);
 // 默认选中状态
 const initSelected = () => {
   // 根据skuID获取对应sku
@@ -51,7 +52,7 @@ const subSku = () => {
       return spec.valueName === selectedArr[index];
     });
     if (!isFind) return;
-    console.log(sku.id);
+    emit("getSku", sku);
   });
 };
 

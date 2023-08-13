@@ -5,12 +5,19 @@ import GoodsImages from "@/views/Goods/components/GoodsImges.vue";
 import { storeToRefs } from "pinia";
 import GoodsSales from "@/views/Goods/components/GoodsSales.vue";
 import GoodsName from "@/views/Goods/components/GoodsName.vue";
-import GoodsSku from "@/views/Goods/components/GoodsSku.vue"; // 响应式
+import GoodsSku from "@/views/Goods/components/GoodsSku.vue";
+import { Sku } from "@/types/goods"; // 响应式
 
 const route = useRoute();
 const { goodsStore } = useStore();
 const { goods } = storeToRefs(goodsStore);
 goodsStore.getGoodsInfo(route.params.goodsId as string);
+
+const onGetSku = (sku: Sku) => {
+  console.log(sku);
+  goods.value.price = sku.price;
+  goods.value.oldPrice = sku.oldPrice;
+};
 </script>
 
 <template>
@@ -32,7 +39,11 @@ goodsStore.getGoodsInfo(route.params.goodsId as string);
         </div>
         <div class="spec">
           <GoodsName :goods="goods" />
-          <GoodsSku :goods="goods" :skuId="'1369155864430120962'" />
+          <GoodsSku
+            :goods="goods"
+            :skuId="'1369155864430120962'"
+            @getSku="onGetSku"
+          />
         </div>
       </div>
     </div>
