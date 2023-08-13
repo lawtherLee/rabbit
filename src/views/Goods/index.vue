@@ -32,7 +32,7 @@ goodsStore.getGoodsInfo(route.params.goodsId as string);
         </div>
         <div class="spec">
           <GoodsName :goods="goods" />
-          <GoodsSku :goods="goods" />
+          <GoodsSku :goods="goods" :skuId="'1369155864430120962'" />
         </div>
       </div>
     </div>

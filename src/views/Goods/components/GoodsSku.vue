@@ -4,7 +4,26 @@ import bwPowerSet from "@/utils/power-set.ts";
 
 const props = defineProps<{
   goods: GoodsInfo;
+  skuId: string;
 }>();
+
+// 默认选中状态
+const initSelected = () => {
+  // 根据skuID获取对应sku
+  const sku = props.goods.skus.find((item) => item.id === props.skuId);
+  // 找到sku中的规格
+  const selectedSpec = sku?.specs.map((item) => item.valueName);
+  props.goods.specs.forEach((item) => {
+    item.values.some((val) => {
+      const isSelected = selectedSpec?.includes(val.name);
+      if (isSelected) {
+        val.selected = true;
+      }
+      return isSelected;
+    });
+  });
+};
+initSelected();
 // 切换选中状态
 const changeSelected = (row: SpecVal, specVal: SpecVal[]) => {
   if (row.disabled) return;
@@ -19,7 +38,23 @@ const changeSelected = (row: SpecVal, specVal: SpecVal[]) => {
   // 更新点击后的禁用状态
   // 1.获取当前选中状态
   upDateSpecBtnDisable();
+  // 如果满足sku，将skuId传到父组件
+  subSku();
 };
+
+// 提交sku
+const subSku = () => {
+  const selectedArr = getSelected().filter((v) => v);
+  if (selectedArr.length !== props.goods.specs.length) return;
+  props.goods.skus.forEach((sku) => {
+    const isFind = sku.specs.every((spec, index) => {
+      return spec.valueName === selectedArr[index];
+    });
+    if (!isFind) return;
+    console.log(sku.id);
+  });
+};
+
 // sku禁用状态
 // 1.筛选所有有效sku
 const optional = () => {
