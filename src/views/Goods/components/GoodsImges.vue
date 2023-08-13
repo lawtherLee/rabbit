@@ -94,6 +94,7 @@ const position = computed(() => {
     background-repeat: no-repeat;
     background-size: 800px 800px;
     background-color: #f8f8f8;
+    z-index: 99999 !important;
   }
 
   .small {

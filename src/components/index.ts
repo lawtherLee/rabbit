@@ -7,7 +7,7 @@ import XtxBreadItem from "@/components/breadItem/index.vue";
 import XtxBread from "@/components/bread/index.vue";
 import XtxGoodsItem from "@/components/goodsItem/index.vue";
 import XtxCity from "@/components/city/index.vue";
-
+import XtxNumBox from "@/components/number/index.vue";
 import { useIntersectionObserver } from "@vueuse/core";
 import defaultImg from "@/assets/images/200.png";
 
@@ -19,6 +19,7 @@ const components = [
   XtxBreadItem,
   XtxGoodsItem,
   XtxCity,
+  XtxNumBox,
 ];
 
 export default function (app: App) {

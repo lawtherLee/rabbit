@@ -44,6 +44,7 @@ const onGetSku = (sku: Sku) => {
             :skuId="'1369155864430120962'"
             @getSku="onGetSku"
           />
+          <XtxNumBox :isShowLabel="true">😄</XtxNumBox>
         </div>
       </div>
     </div>
