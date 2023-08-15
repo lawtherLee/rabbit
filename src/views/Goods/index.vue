@@ -6,7 +6,8 @@ import { storeToRefs } from "pinia";
 import GoodsSales from "@/views/Goods/components/GoodsSales.vue";
 import GoodsName from "@/views/Goods/components/GoodsName.vue";
 import GoodsSku from "@/views/Goods/components/GoodsSku.vue";
-import { Sku } from "@/types/goods"; // 响应式
+import { Sku } from "@/types/goods";
+import { ref } from "vue"; // 响应式
 
 const route = useRoute();
 const { goodsStore } = useStore();
@@ -18,6 +19,8 @@ const onGetSku = (sku: Sku) => {
   goods.value.price = sku.price;
   goods.value.oldPrice = sku.oldPrice;
 };
+
+const buyCount = ref(1);
 </script>
 
 <template>
@@ -44,7 +47,14 @@ const onGetSku = (sku: Sku) => {
             :skuId="'1369155864430120962'"
             @getSku="onGetSku"
           />
-          <XtxNumBox :isShowLabel="true">😄</XtxNumBox>
+          <XtxNumBox
+            v-model:buyCount="buyCount"
+            :isShowLabel="true"
+            :max="10"
+            :min="1"
+          >
+            😄
+          </XtxNumBox>
         </div>
       </div>
     </div>

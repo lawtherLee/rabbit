@@ -1,9 +1,25 @@
 <script lang="ts" name="XtxNumBox" setup>
-//
-console.log(123);
-defineProps<{
+const {
+  isShowLabel,
+  buyCount,
+  min = 1,
+  max,
+} = defineProps<{
   isShowLabel: boolean;
+  buyCount: number;
+  min: number;
+  max: number;
 }>();
+
+const emit = defineEmits(["update:buyCount"]);
+const subCount = () => {
+  if (buyCount <= min) return;
+  emit("update:buyCount", buyCount - 1);
+};
+const addCount = () => {
+  if (max && buyCount >= max) return;
+  emit("update:buyCount", buyCount + 1);
+};
 </script>
 <template>
   <div class="xtx-numbox">
@@ -11,9 +27,9 @@ defineProps<{
       <slot>数量</slot>
     </div>
     <div class="numbox">
-      <a href="javascript:">-</a>
-      <input readonly type="text" value="1" />
-      <a href="javascript:">+</a>
+      <a href="javascript:" @click="subCount">-</a>
+      <input :value="buyCount" readonly type="text" />
+      <a href="javascript:" @click="addCount">+</a>
     </div>
   </div>
 </template>
