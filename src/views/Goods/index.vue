@@ -21,6 +21,10 @@ const onGetSku = (sku: Sku) => {
 };
 
 const buyCount = ref(1);
+
+const addShopCar = () => {
+  console.log("加入购物车");
+};
 </script>
 
 <template>
@@ -42,11 +46,13 @@ const buyCount = ref(1);
         </div>
         <div class="spec">
           <GoodsName :goods="goods" />
+          <!--          sku-->
           <GoodsSku
             :goods="goods"
             :skuId="'1369155864430120962'"
             @getSku="onGetSku"
           />
+          <!--          商品数量-->
           <XtxNumBox
             v-model:buyCount="buyCount"
             :isShowLabel="true"
@@ -55,6 +61,15 @@ const buyCount = ref(1);
           >
             😄
           </XtxNumBox>
+          <!--          加入购物车-->
+          <XtxButton
+            size="middle"
+            style="margin: 10px 5px"
+            type="primary"
+            @click="addShopCar"
+          >
+            加入购物车
+          </XtxButton>
         </div>
       </div>
     </div>
