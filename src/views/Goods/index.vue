@@ -7,7 +7,9 @@ import GoodsSales from "@/views/Goods/components/GoodsSales.vue";
 import GoodsName from "@/views/Goods/components/GoodsName.vue";
 import GoodsSku from "@/views/Goods/components/GoodsSku.vue";
 import { Sku } from "@/types/goods";
-import { ref } from "vue"; // 响应式
+import { ref } from "vue";
+import GoodsDetail from "@/views/Goods/components/GoodsDetail.vue";
+import GoodsHot from "@/views/Goods/components/GoodsHot.vue"; // 响应式
 
 const route = useRoute();
 const { goodsStore } = useStore();
@@ -72,6 +74,22 @@ const addShopCar = () => {
           </XtxButton>
         </div>
       </div>
+      <!--      商品详情-->
+      <div class="goods-footer">
+        <div class="goods-article">
+          <!-- 商品+评价 -->
+          <div class="goods-tabs">
+            <!-- 商品详情 -->
+            <GoodsDetail :goods="goods" />
+          </div>
+        </div>
+        <!-- 24热榜+专题推荐 -->
+        <div class="goods-aside">
+          <GoodsHot :type="1" />
+          <GoodsHot :type="2" />
+          <GoodsHot :type="3" />
+        </div>
+      </div>
     </div>
     <div v-else class="container">骨架屏加载中</div>
   </div>
@@ -92,6 +110,21 @@ const addShopCar = () => {
   .spec {
     flex: 1;
     padding: 30px 30px 30px 0;
+  }
+}
+
+.goods-footer {
+  display: flex;
+  margin-top: 20px;
+
+  .goods-article {
+    width: 940px;
+    margin-right: 20px;
+  }
+
+  .goods-aside {
+    width: 280px;
+    min-height: 1000px;
   }
 }
 </style>

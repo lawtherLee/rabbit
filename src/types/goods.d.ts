@@ -1,4 +1,12 @@
 // 商品模块的类型声明
+
+type GoodsDetail = {
+  pictures: string[];
+  properties: {
+    name: string;
+    value: string;
+  }[];
+};
 export type Sku = {
   id: string;
   inventory: number;
@@ -44,6 +52,7 @@ export type GoodsInfo = {
   }[];
   specs: Spec[];
   skus: Sku[];
+  details: GoodsDetail;
 };
 // 城市类型
 export type CityList = {
