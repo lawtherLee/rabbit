@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import message from "@/components/message/index.ts";
+import Message from "@/components/message/index.ts";
 
-message("error", "失败");
+Message.error("1111");
 </script>
 
 <template>
