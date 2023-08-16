@@ -2,6 +2,12 @@
 import { ref } from "vue";
 
 const loginType = ref<"account" | "mobile">("account");
+
+const agree = ref(false);
+
+const onChange = () => {
+  console.log("复选框变化了");
+};
 </script>
 <template>
   <div class="account-box">
@@ -53,7 +59,10 @@ const loginType = ref<"account" | "mobile">("account");
       </template>
       <div class="form-item">
         <div class="agree">
-          <XtxCheckbox></XtxCheckbox>
+          <!--          复选框-->
+          <XtxCheckbox v-model:agree="agree" @change="onChange"
+            >我同意
+          </XtxCheckbox>
           <a href="javascript:">《隐私条款》</a>
           <span>和</span>
           <a href="javascript:">《服务条款》</a>

@@ -1,9 +1,11 @@
-<script lang="ts" name="PlayGround" setup>
-console.log();
+<script lang="ts" setup>
+import message from "@/components/message/index.ts";
+
+message("error", "失败");
 </script>
 
 <template>
-  <div>11</div>
+  <div></div>
 </template>
 
-<style lang="scss" scoped></style>
+<style scoped></style>
