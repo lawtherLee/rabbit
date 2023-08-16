@@ -9,6 +9,7 @@ import XtxGoodsItem from "@/components/goodsItem/index.vue";
 import XtxCity from "@/components/city/index.vue";
 import XtxNumBox from "@/components/number/index.vue";
 import XtxButton from "@/components/button/index.vue";
+import XtxCheckbox from "@/components/checkbox/index.vue";
 import { useIntersectionObserver } from "@vueuse/core";
 import defaultImg from "@/assets/images/200.png";
 
@@ -22,6 +23,7 @@ const components = [
   XtxCity,
   XtxNumBox,
   XtxButton,
+  XtxCheckbox,
 ];
 
 export default function (app: App) {

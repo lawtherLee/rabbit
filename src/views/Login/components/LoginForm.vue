@@ -1,16 +1,27 @@
-<script lang="ts" name="LoginForm" setup></script>
+<script lang="ts" name="LoginForm" setup>
+import { ref } from "vue";
+
+const loginType = ref<"account" | "mobile">("account");
+</script>
 <template>
   <div class="account-box">
     <div class="toggle">
-      <a v-if="true" href="javascript:">
-        <i class="iconfont icon-user"></i> 使用账号登录
-      </a>
-      <a v-else href="javascript:">
-        <i class="iconfont icon-msg"></i> 使用短信登录
+      <a
+        href="javascript:"
+        @click="loginType = loginType === 'account' ? 'mobile' : 'account'"
+      >
+        <i
+          :class="{
+            'icon-user': loginType === 'account',
+            'icon-msg': loginType === 'mobile',
+          }"
+          class="iconfont icon-user"
+        ></i>
+        {{ loginType === "account" ? "使用短信登录" : "使用账号登录" }}
       </a>
     </div>
     <div class="form">
-      <template v-if="true">
+      <template v-if="loginType === 'account'">
         <div class="form-item">
           <div class="input">
             <i class="iconfont icon-user"></i>
@@ -42,7 +53,7 @@
       </template>
       <div class="form-item">
         <div class="agree">
-          <span>我已同意</span>
+          <XtxCheckbox></XtxCheckbox>
           <a href="javascript:">《隐私条款》</a>
           <span>和</span>
           <a href="javascript:">《服务条款》</a>
