@@ -1,17 +1,17 @@
 <script lang="ts" name="XtxCheckbox" setup>
 const props = defineProps<{
-  agree: boolean;
+  modelValue: boolean;
 }>();
-const emit = defineEmits(["update:agree", "change"]);
+const emit = defineEmits(["update:modelValue", "change"]);
 const onChange = () => {
-  emit("update:agree", !props.agree);
-  emit("change");
+  emit("update:modelValue", !props.modelValue);
+  // emit("change");
 };
 </script>
 
 <template>
   <div class="xtx-checkbox" @click="onChange">
-    <i v-if="agree" class="iconfont icon-checked"></i>
+    <i v-if="modelValue" class="iconfont icon-checked"></i>
     <i v-else class="iconfont icon-unchecked"></i>
     <span><slot /></span>
   </div>

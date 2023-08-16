@@ -1,12 +1,44 @@
 <script lang="ts" name="LoginForm" setup>
 import { ref } from "vue";
+import { useField, useForm } from "vee-validate";
 
 const loginType = ref<"account" | "mobile">("account");
 
-const agree = ref(false);
-
 const onChange = () => {
   console.log("复选框变化了");
+};
+// 表单数据和校验
+// 定义校验
+const simpleSchema = {
+  account(value: string) {
+    if (value && value.trim()) {
+      return true;
+    }
+    return "用户名不合法";
+  },
+  password(value: string) {
+    if (value && value.trim()) {
+      return true;
+    }
+    return "密码不合法";
+  },
+  isAgree(value: boolean) {
+    if (value) {
+      return true;
+    }
+    return "请勾选协议";
+  },
+};
+useForm({
+  validationSchema: simpleSchema,
+});
+// 创建校验
+const { value: account, errorMessage: accountErr } = useField("account");
+const { value: password, errorMessage: passwordErr } = useField("password");
+const { value: isAgree, errorMessage: isAgreeErr } =
+  useField<boolean>("isAgree");
+const onLogin = () => {
+  console.log("发送请求");
 };
 </script>
 <template>
@@ -26,22 +58,37 @@ const onChange = () => {
         {{ loginType === "account" ? "使用短信登录" : "使用账号登录" }}
       </a>
     </div>
+    <!--    表单-->
     <div class="form">
       <template v-if="loginType === 'account'">
         <div class="form-item">
           <div class="input">
             <i class="iconfont icon-user"></i>
-            <input placeholder="请输入用户名或手机号" type="text" />
+            <input
+              v-model="account"
+              placeholder="请输入用户名或手机号"
+              type="text"
+            />
           </div>
-          <!-- <div class="error"><i class="iconfont icon-warning" />请输入手机号</div> -->
+          <div v-show="accountErr" class="error">
+            <i class="iconfont icon-warning" />{{ accountErr }}
+          </div>
         </div>
         <div class="form-item">
           <div class="input">
             <i class="iconfont icon-lock"></i>
-            <input placeholder="请输入密码" type="password" />
+            <input
+              v-model="password"
+              placeholder="请输入密码"
+              type="password"
+            />
+          </div>
+          <div v-show="passwordErr" class="error">
+            <i class="iconfont icon-warning" />{{ passwordErr }}
           </div>
         </div>
       </template>
+      <!--      短信登录-->
       <template v-else>
         <div class="form-item">
           <div class="input">
@@ -60,15 +107,18 @@ const onChange = () => {
       <div class="form-item">
         <div class="agree">
           <!--          复选框-->
-          <XtxCheckbox v-model:agree="agree" @change="onChange"
+          <XtxCheckbox v-model="isAgree" @change="onChange"
             >我同意
           </XtxCheckbox>
           <a href="javascript:">《隐私条款》</a>
           <span>和</span>
           <a href="javascript:">《服务条款》</a>
         </div>
+        <div v-show="isAgreeErr" class="error">
+          <i class="iconfont icon-warning" />{{ isAgreeErr }}
+        </div>
       </div>
-      <a class="btn" href="javascript:">登录</a>
+      <a class="btn" href="javascript:" @click="onLogin">登录</a>
     </div>
     <div class="action">
       <img
