@@ -53,30 +53,51 @@ const { validate: validateForm, resetForm } = useForm({
     account: "xiaotuxian001",
     password: "123456",
     mobile: "13012345789",
-    code: "123456",
+    // code: "123456",
     isAgree: false,
   },
 });
 // 创建校验
-const { value: account, errorMessage: accountErr } =
-  useField<string>("account");
-const { value: password, errorMessage: passwordErr } =
-  useField<string>("password");
-const { value: isAgree, errorMessage: isAgreeErr } =
-  useField<boolean>("isAgree");
+const {
+  value: account,
+  errorMessage: accountErr,
+  validate: accountValidate,
+} = useField<string>("account");
+const {
+  value: password,
+  errorMessage: passwordErr,
+  validate: passwordValidate,
+} = useField<string>("password");
+const {
+  value: isAgree,
+  errorMessage: isAgreeErr,
+  validate: isAgreeValidate,
+} = useField<boolean>("isAgree");
 
 // 短信登录
 // const { validate: mobileValidate } = useForm({
 //   validationSchema: {},
 //   initialValues: {},
 // });
-const { value: mobile, errorMessage: mobileErr } = useField<string>("mobile");
+const {
+  value: mobile,
+  errorMessage: mobileErr,
+  validate: mobileValidate,
+} = useField<string>("mobile");
 const { value: code, errorMessage: codeErr } = useField<string>("code");
 
 // 点击登录
 const onLogin = async () => {
-  const { valid } = await validateForm();
-  if (!valid) return;
+  // 对表单所有项统一校验
+  // const { valid } = await validateForm();
+  // if (!valid) return;
+  // 对表单所有项分开校验
+  const { valid: accountValid } = await accountValidate();
+  const { valid: passwordValid } = await passwordValidate();
+  const { valid: isAgreeValid } = await isAgreeValidate();
+
+  if (!accountValid || !passwordValid || !isAgreeValid) return;
+
   try {
     await userStore.accountLogin(account.value, password.value);
     await router.push("/");
@@ -84,6 +105,16 @@ const onLogin = async () => {
   } catch (err) {
     Message.error("用户名或密码错误");
   }
+};
+
+// 发送验证码
+const mobileRef = ref<HTMLInputElement | null>(null);
+const sendCode = async () => {
+  const { valid } = await mobileValidate();
+  if (!valid) {
+    return mobileRef.value?.focus();
+  }
+  console.log("sendCode");
 };
 </script>
 
@@ -136,7 +167,12 @@ const onLogin = async () => {
         <div class="form-item">
           <div class="input">
             <i class="iconfont icon-user"></i>
-            <input v-model="mobile" placeholder="请输入手机号" type="text" />
+            <input
+              ref="mobileRef"
+              v-model="mobile"
+              placeholder="请输入手机号"
+              type="text"
+            />
           </div>
           <div v-show="mobileErr" class="error">
             <i class="iconfont icon-warning" />{{ mobileErr }}
@@ -146,7 +182,7 @@ const onLogin = async () => {
           <div class="input">
             <i class="iconfont icon-code"></i>
             <input v-model="code" placeholder="请输入验证码" type="password" />
-            <span class="code">发送验证码</span>
+            <span class="code" @click="sendCode">发送验证码</span>
           </div>
           <div v-show="codeErr" class="error">
             <i class="iconfont icon-warning" />{{ codeErr }}
