@@ -1,4 +1,4 @@
-import {useIntersectionObserver} from "@vueuse/core";
+import {useIntersectionObserver, useIntervalFn} from "@vueuse/core";
 import {ref} from "vue";
 
 /**
@@ -14,4 +14,27 @@ export function useSyncRequest(fn: () => void) {
     }
   });
   return target;
+}
+
+export function useCountDown(count: number) {
+  const time = ref(0);
+
+  const { pause, resume } = useIntervalFn(
+    () => {
+      time.value--;
+      if (time.value === 0) {
+        pause();
+      }
+    },
+    1000,
+    { immediate: false },
+  );
+  const start = () => {
+    time.value = count;
+    resume();
+  };
+  return {
+    time,
+    start,
+  };
 }
