@@ -1,5 +1,6 @@
 // 创建实例时配置默认值
-import axios from "axios";
+import axios, { AxiosError } from "axios";
+import Message from "@/components/message/index.ts";
 
 const instance = axios.create({
   baseURL: "http://pcapi-xiaotuxian-front.itheima.net/",
@@ -25,9 +26,14 @@ instance.interceptors.response.use(
     // 对响应数据做点什么
     return response;
   },
-  function (error) {
+  function (error: AxiosError<{ message: string }>) {
     // 超出 2xx 范围的状态码都会触发该函数。
     // 对响应错误做点什么
+    console.log(error);
+    if (error.response) {
+      // error.response的报错是Message.error抛出的
+      Message.error(error.response.data.message);
+    }
     return Promise.reject(error);
   },
 );
