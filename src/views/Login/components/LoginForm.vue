@@ -12,6 +12,12 @@ const loginType = ref<"account" | "mobile">("account");
 const onChange = () => {
   console.log("复选框变化了");
 };
+
+// 点击切换登录方式
+const onCheckLogin = () => {
+  loginType.value = loginType.value === "account" ? "mobile" : "account";
+  resetForm();
+};
 // 表单数据和校验
 // 定义校验
 const simpleSchema = {
@@ -25,17 +31,29 @@ const simpleSchema = {
     if (!/^\w{6,12}$/.test(value)) return "密码必须是6-24位字符";
     return true;
   },
+  mobile(value: string) {
+    if (!value) return "请输入手机号";
+    if (!/^1[3-9]\d{9}$/.test(value)) return "手机号格式错误";
+    return true;
+  },
+  code(value: string) {
+    if (!value) return "请输入验证码";
+    if (!/^\d{6}$/.test(value)) return "验证码是6个数字";
+    return true;
+  },
   isAgree(value: boolean) {
     if (!value) return "请同意隐私条款";
     return true;
   },
 };
-const { validate: validateForm } = useForm({
+const { validate: validateForm, resetForm } = useForm({
   validationSchema: simpleSchema, // 提供校验规则
   initialValues: {
     // 配置默认值
     account: "xiaotuxian001",
     password: "123456",
+    mobile: "13012345789",
+    code: "123456",
     isAgree: false,
   },
 });
@@ -46,6 +64,14 @@ const { value: password, errorMessage: passwordErr } =
   useField<string>("password");
 const { value: isAgree, errorMessage: isAgreeErr } =
   useField<boolean>("isAgree");
+
+// 短信登录
+// const { validate: mobileValidate } = useForm({
+//   validationSchema: {},
+//   initialValues: {},
+// });
+const { value: mobile, errorMessage: mobileErr } = useField<string>("mobile");
+const { value: code, errorMessage: codeErr } = useField<string>("code");
 
 // 点击登录
 const onLogin = async () => {
@@ -64,10 +90,7 @@ const onLogin = async () => {
 <template>
   <div class="account-box">
     <div class="toggle">
-      <a
-        href="javascript:"
-        @click="loginType = loginType === 'account' ? 'mobile' : 'account'"
-      >
+      <a href="javascript:" @click="onCheckLogin">
         <i
           :class="{
             'icon-user': loginType === 'account',
@@ -113,14 +136,20 @@ const onLogin = async () => {
         <div class="form-item">
           <div class="input">
             <i class="iconfont icon-user"></i>
-            <input placeholder="请输入手机号" type="text" />
+            <input v-model="mobile" placeholder="请输入手机号" type="text" />
+          </div>
+          <div v-show="mobileErr" class="error">
+            <i class="iconfont icon-warning" />{{ mobileErr }}
           </div>
         </div>
         <div class="form-item">
           <div class="input">
             <i class="iconfont icon-code"></i>
-            <input placeholder="请输入验证码" type="password" />
+            <input v-model="code" placeholder="请输入验证码" type="password" />
             <span class="code">发送验证码</span>
+          </div>
+          <div v-show="codeErr" class="error">
+            <i class="iconfont icon-warning" />{{ codeErr }}
           </div>
         </div>
       </template>
