@@ -19,5 +19,15 @@ export default defineStore("user", {
       });
       this.profile = res.data.result;
     },
+
+    // 发送验证码
+    async getCode(mobile: string) {
+      const res = await request.get<IAxiosRes<any>>("/login/code", {
+        params: {
+          mobile,
+        },
+      });
+      console.log(res);
+    },
   },
 });

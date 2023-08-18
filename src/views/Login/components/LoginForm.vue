@@ -52,7 +52,7 @@ const { validate: validateForm, resetForm } = useForm({
     // 配置默认值
     account: "xiaotuxian001",
     password: "123456",
-    mobile: "13012345789",
+    mobile: "13612345789",
     // code: "123456",
     isAgree: false,
   },
@@ -114,7 +114,7 @@ const sendCode = async () => {
   if (!valid) {
     return mobileRef.value?.focus();
   }
-  console.log("sendCode");
+  await userStore.getCode(mobile.value);
 };
 </script>
 
