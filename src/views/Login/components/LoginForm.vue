@@ -4,6 +4,7 @@ import { useField, useForm } from "vee-validate";
 import useStore from "@/store";
 import { useRouter } from "vue-router";
 import Message from "@/components/message/index.ts";
+import { useIntervalFn } from "@vueuse/core";
 
 const router = useRouter();
 const { userStore } = useStore();
@@ -52,7 +53,7 @@ const { validate: validateForm, resetForm } = useForm({
     // 配置默认值
     account: "xiaotuxian001",
     password: "123456",
-    mobile: "13612345789",
+    mobile: "13666666666",
     // code: "123456",
     isAgree: false,
   },
@@ -109,12 +110,32 @@ const onLogin = async () => {
 
 // 发送验证码
 const mobileRef = ref<HTMLInputElement | null>(null);
+// 倒计时
+const time = ref(0);
+let timer = -1;
 const sendCode = async () => {
+  if (time.value > 0) return;
   const { valid } = await mobileValidate();
   if (!valid) {
     return mobileRef.value?.focus();
   }
   await userStore.getCode(mobile.value);
+  Message.success("验证码已发送");
+  time.value = 60;
+  // // 倒计时
+  // timer = window.setInterval(() => {
+  //   time.value--;
+  //   if (time.value === 0) {
+  //     clearInterval(timer);
+  //   }
+  // }, 1000);
+  const { pause, resume } = useIntervalFn(() => {
+    time.value--;
+    if (time.value === 0) {
+      pause();
+    }
+  }, 1000);
+  resume();
 };
 </script>
 
@@ -182,7 +203,9 @@ const sendCode = async () => {
           <div class="input">
             <i class="iconfont icon-code"></i>
             <input v-model="code" placeholder="请输入验证码" type="password" />
-            <span class="code" @click="sendCode">发送验证码</span>
+            <span class="code" @click="sendCode">
+              {{ time ? time + "s" : "发送验证码" }}
+            </span>
           </div>
           <div v-show="codeErr" class="error">
             <i class="iconfont icon-warning" />{{ codeErr }}
