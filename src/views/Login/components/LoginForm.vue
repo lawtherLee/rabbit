@@ -11,25 +11,21 @@ const onChange = () => {
 // 定义校验
 const simpleSchema = {
   account(value: string) {
-    if (value && value.trim()) {
-      return true;
-    }
-    return "用户名不合法";
+    if (!value) return "请输入用户名";
+    if (!/^[a-zA-Z]\w{5,19}$/.test(value)) return "字母开头且6-20个字符";
+    return true;
   },
   password(value: string) {
-    if (value && value.trim()) {
-      return true;
-    }
-    return "密码不合法";
+    if (!value) return "请输入密码";
+    if (!/^\w{6,12}$/.test(value)) return "密码必须是6-24位字符";
+    return true;
   },
   isAgree(value: boolean) {
-    if (value) {
-      return true;
-    }
-    return "请勾选协议";
+    if (!value) return "请同意隐私条款";
+    return true;
   },
 };
-useForm({
+const { validate: validateForm } = useForm({
   validationSchema: simpleSchema,
 });
 // 创建校验
@@ -37,10 +33,14 @@ const { value: account, errorMessage: accountErr } = useField("account");
 const { value: password, errorMessage: passwordErr } = useField("password");
 const { value: isAgree, errorMessage: isAgreeErr } =
   useField<boolean>("isAgree");
-const onLogin = () => {
-  console.log("发送请求");
+
+// 点击登录
+const onLogin = async () => {
+  const { valid } = await validateForm();
+  if (!valid) return;
 };
 </script>
+
 <template>
   <div class="account-box">
     <div class="toggle">
