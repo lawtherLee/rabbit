@@ -2,7 +2,8 @@ import { defineStore } from "pinia";
 import request from "@/utils/request.ts";
 import { IAxiosRes } from "@/types/data";
 import { UserType } from "@/types/user";
-import { getProfile, setProfile } from "@/utils/storage.ts";
+import { getProfile, removeProfile, setProfile } from "@/utils/storage.ts";
+import router from "@/router";
 
 export default defineStore("user", {
   state: () => {
@@ -40,6 +41,13 @@ export default defineStore("user", {
       // 1. 保存用户信息到 state 中
       this.profile = res.data.result;
       setProfile(this.profile);
+    },
+    // 用户退出
+    logout() {
+      this.profile = {} as UserType;
+      removeProfile();
+
+      router.push("/login");
     },
   },
 });
