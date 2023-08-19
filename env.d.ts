@@ -1,6 +1,7 @@
 declare module "@/types/goods";
 declare module "@/types/category";
 declare module "@/types/data";
+declare module "@/types/user";
 declare module "@/utils/request";
 declare module "*.vue" {
   import { DefineComponent } from "vue";

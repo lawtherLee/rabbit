@@ -1,7 +1,9 @@
 <script lang="ts" setup>
 import { useRouter } from "vue-router";
+import useStore from "@/store";
 
 const router = useRouter();
+const { userStore } = useStore();
 </script>
 
 <template>
@@ -9,7 +11,10 @@ const router = useRouter();
     <div class="container">
       <ul>
         <li>
-          <a href="javascript:"><i class="iconfont icon-user"></i>周杰伦</a>
+          <a href="javascript:">
+            <i class="iconfont icon-user"></i>
+            {{ userStore.profile.nickname || userStore.profile.account }}
+          </a>
         </li>
         <li><a href="javascript:">退出登录1</a></li>
         <li>
