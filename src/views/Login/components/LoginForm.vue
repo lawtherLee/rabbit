@@ -85,7 +85,11 @@ const {
   errorMessage: mobileErr,
   validate: mobileValidate,
 } = useField<string>("mobile");
-const { value: code, errorMessage: codeErr } = useField<string>("code");
+const {
+  value: code,
+  errorMessage: codeErr,
+  validate: codeValidate,
+} = useField<string>("code");
 
 // 点击登录
 const onLogin = async () => {
@@ -96,16 +100,23 @@ const onLogin = async () => {
   const { valid: accountValid } = await accountValidate();
   const { valid: passwordValid } = await passwordValidate();
   const { valid: isAgreeValid } = await isAgreeValidate();
-
-  if (!accountValid || !passwordValid || !isAgreeValid) return;
-
-  try {
-    await userStore.accountLogin(account.value, password.value);
-    await router.push("/");
-    Message.success("登录成功");
-  } catch (err) {
-    Message.error("用户名或密码错误");
+  // 账号登录
+  if (loginType.value === "account") {
+    if (!accountValid || !passwordValid || !isAgreeValid) return;
+    try {
+      await userStore.accountLogin(account.value, password.value);
+    } catch (err) {
+      Message.error("用户名或密码错误");
+    }
+  } else {
+    // 短信登录
+    const { valid: mobileValid } = await mobileValidate();
+    const { valid: codeValid } = await codeValidate();
+    if (!mobileValid || !codeValid) return;
+    await userStore.mobileLogin(mobile.value, code.value);
   }
+  await router.push("/");
+  Message.success("登录成功");
 };
 
 // 发送验证码

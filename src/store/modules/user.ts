@@ -29,5 +29,13 @@ export default defineStore("user", {
       });
       console.log(res);
     },
+    async mobileLogin(mobile: string, code: string) {
+      const res = await request.post<IAxiosRes<UserType>>("/login/code", {
+        mobile,
+        code,
+      });
+      // 1. 保存用户信息到 state 中
+      this.profile = res.data.result;
+    },
   },
 });
