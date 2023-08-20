@@ -1,23 +1,40 @@
 <script lang="ts" name="LoginCallback" setup>
 import LoginHeader from "@/views/Login/components/LoginHeader.vue";
 import LoginFooter from "@/views/Login/components/LoginFooter.vue";
+import { ref } from "vue";
+import CallbackBind from "@/views/Login/components/CallbackBind.vue";
+import CallbackPatch from "@/views/Login/components/CallbackPatch.vue";
+
+const hasAccount = ref(true);
 </script>
 
 <template>
   <LoginHeader></LoginHeader>
   <section class="container">
     <nav class="tab">
-      <a href="javascript:">
+      <a
+        :class="{ active: hasAccount }"
+        href="javascript:"
+        @click="hasAccount = true"
+      >
         <i class="iconfont icon-bind" />
         <span>已有小兔鲜账号，请绑定手机</span>
       </a>
-      <a href="javascript:">
+      <a
+        :class="{ active: !hasAccount }"
+        href="javascript:"
+        @click="hasAccount = false"
+      >
         <i class="iconfont icon-edit" />
         <span>没有小兔鲜账号，请完善资料</span>
       </a>
     </nav>
-    <div v-if="true" class="tab-content">绑定手机</div>
-    <div v-else class="tab-content">完善资料</div>
+    <div v-if="hasAccount" class="tab-content">
+      <CallbackBind />
+    </div>
+    <div v-else class="tab-content">
+      <CallbackPatch />
+    </div>
   </section>
   <LoginFooter></LoginFooter>
 </template>
