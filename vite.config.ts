@@ -9,7 +9,8 @@ export default defineConfig({
     watch: {
       usePolling: true, // 修复HMR热更新失效
     },
-    host: "localhost",
+    host: "www.corho.com",
+    port: 8080,
     cors: true,
     open: true,
     hmr: true,
