@@ -4,13 +4,19 @@ import LoginFooter from "@/views/Login/components/LoginFooter.vue";
 import { ref } from "vue";
 import CallbackBind from "@/views/Login/components/CallbackBind.vue";
 import CallbackPatch from "@/views/Login/components/CallbackPatch.vue";
+import useStore from "@/store";
+import Message from "@/components/message/index.ts";
 
 const hasAccount = ref(true);
-
+const { userStore } = useStore();
 const isLogin = QC.Login.check();
 if (isLogin) {
-  QC.Login.getMe((openId: string) => {
-    console.log(openId);
+  QC.Login.getMe(async (openId: string) => {
+    try {
+      await userStore.qqLogin(openId);
+    } catch (err) {
+      Message.success("登录成功但未绑定账号", 3000);
+    }
   });
 }
 </script>

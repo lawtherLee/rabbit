@@ -10,3 +10,7 @@ export type UserType = {
   provinceCode: string;
   birthday: string;
 };
+export type QQUserInfo = {
+  nickname: string;
+  figureurl_qq_2: string;
+};
