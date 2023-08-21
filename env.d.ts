@@ -8,3 +8,11 @@ declare module "*.vue" {
   const component: DefineComponent<{}, {}, any>;
   export default component;
 }
+
+type GetMeCb = (openId: string) => void;
+namespace QC {
+  const Login: {
+    check: () => boolean;
+    getMe: (GetMeCb) => void;
+  };
+}
