@@ -67,6 +67,26 @@ export default defineStore("user", {
         code,
       });
     },
+    // 获取短信验证码
+    // 绑定qq的短信验证码
+    async sendQQPathMsg(mobile: string) {
+      await request.get("/register/code", {
+        params: {
+          mobile,
+        },
+      });
+    },
+
+    async qqPatchLogin(data: any) {
+      const res = await request.post<IAxiosRes<UserType>>(
+        `/login/social/${data.openId}/complement`,
+        data,
+      );
+      // 1. 保存用户信息到 state 中
+      this.profile = res.data.result;
+      setProfile(res.data.result);
+    },
+
     // 用户退出
     logout() {
       this.profile = {} as UserType;
