@@ -50,6 +50,23 @@ export default defineStore("user", {
       });
       console.log(res);
     },
+    // 绑定qq的短信验证码
+    async sendQQBindMsg(mobile: string) {
+      const res = await request.get("/login/social/code", {
+        params: {
+          mobile,
+        },
+      });
+      console.log(res);
+    },
+    // 绑定qq并登录
+    qqBindLogin(unionId: string, mobile: string, code: string) {
+      request.post("/login/social/bind", {
+        unionId,
+        mobile,
+        code,
+      });
+    },
     // 用户退出
     logout() {
       this.profile = {} as UserType;

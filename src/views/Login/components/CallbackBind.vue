@@ -3,24 +3,52 @@ import { ref } from "vue";
 import { QQUserInfo } from "@/types/user";
 import { useField, useForm } from "vee-validate";
 import { codeRule, mobileRule } from "@/utils/validate.ts";
+import useStore from "@/store";
+import { useCountDown } from "@/hooks";
 
+const { userStore } = useStore();
 const userInfo = ref<QQUserInfo>({} as QQUserInfo);
+let openId = "";
 if (QC.Login.check()) {
   QC.api("get_user_info").success((resp: any) => {
     console.log(resp);
     userInfo.value = resp.data;
   });
+  QC.Login.getMe((id: string) => {
+    openId = id;
+  });
 }
 
 // 表单功能
-useForm({
+const { validate } = useForm({
   validationSchema: {
     mobile: mobileRule,
     code: codeRule,
   },
 });
-const { value: mobile, errorMessage: mobileErrMsg } = useField("mobile");
-const { value: code, errorMessage: codeErrMsg } = useField("code");
+const {
+  value: mobile,
+  errorMessage: mobileErrMsg,
+  validate: mobileValidate,
+} = useField<string>("mobile");
+const { value: code, errorMessage: codeErrMsg } = useField<string>("code");
+
+// 发送验证码
+const { start, time } = useCountDown(60);
+const sendCode = async () => {
+  if (time.value > 0) return;
+  const { valid } = await mobileValidate();
+  if (!valid) return;
+  await userStore.sendQQBindMsg(mobile.value);
+  start();
+};
+
+// 绑定
+const bind = async () => {
+  const { valid } = await validate();
+  if (!valid) return;
+  userStore.qqBindLogin(openId, mobile.value, code.value);
+};
 </script>
 <template>
   <div class="xtx-form">
@@ -52,11 +80,13 @@ const { value: code, errorMessage: codeErrMsg } = useField("code");
           placeholder="短信验证码"
           type="text"
         />
-        <span class="code">发送验证码</span>
+        <span class="code" @click="sendCode">
+          {{ time ? time + "s" : "发送验证码" }}
+        </span>
       </div>
       <div class="error">{{ codeErrMsg }}</div>
     </div>
-    <a class="submit" href="javascript:">立即绑定</a>
+    <a class="submit" href="javascript:" @click="bind">立即绑定</a>
   </div>
 </template>
 
