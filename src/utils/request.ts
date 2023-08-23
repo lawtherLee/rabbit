@@ -1,6 +1,7 @@
 // 创建实例时配置默认值
 import axios, { AxiosError } from "axios";
 import Message from "@/components/message/index.ts";
+import useStore from "@/store";
 
 const instance = axios.create({
   // baseURL: "http://pcapi-xiaotuxian-front.itheima.net/",
@@ -11,6 +12,10 @@ const instance = axios.create({
 instance.interceptors.request.use(
   function (config) {
     // 在发送请求之前做些什么
+    const { userStore } = useStore();
+    if (userStore.profile.token) {
+      config.headers.Authorization = "Bearer " + userStore.profile.token;
+    }
     return config;
   },
   function (error) {

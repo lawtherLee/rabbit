@@ -46,7 +46,9 @@ const changeSelected = (row: SpecVal, specVal: SpecVal[]) => {
 // 提交sku
 const subSku = () => {
   const selectedArr = getSelected().filter((v) => v);
-  if (selectedArr.length !== props.goods.specs.length) return;
+  // 有的规格没选完
+  if (selectedArr.length !== props.goods.specs.length)
+    return emit("getSku", {});
   props.goods.skus.forEach((sku) => {
     const isFind = sku.specs.every((spec, index) => {
       return spec.valueName === selectedArr[index];
