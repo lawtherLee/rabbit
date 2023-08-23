@@ -1,5 +1,6 @@
 <script lang="ts" name="AppHeader" setup>
 import AppHeaderNav from "@/views/Layout/components/AppHeaderNav.vue";
+import AppHeaderCart from "@/views/Layout/components/AppHeaderCart.vue";
 </script>
 
 <template>
@@ -8,14 +9,15 @@ import AppHeaderNav from "@/views/Layout/components/AppHeaderNav.vue";
       <h1 class="logo">
         <router-link to="/">小兔鲜</router-link>
       </h1>
-      <AppHeaderNav/>
+      <AppHeaderNav />
       <div class="search">
         <i class="iconfont icon-search"></i>
-        <input placeholder="搜一搜" type="text"/>
+        <input placeholder="搜一搜" type="text" />
       </div>
       <div class="cart">
         <a class="curr" href="#">
-          <i class="iconfont icon-cart"></i><em>2</em>
+          <!--          <i class="iconfont icon-cart"></i><em>2</em>-->
+          <AppHeaderCart />
         </a>
       </div>
     </div>
@@ -39,10 +41,10 @@ import AppHeaderNav from "@/views/Layout/components/AppHeaderNav.vue";
       height: 132px;
       width: 100%;
       text-indent: -9999px;
-      background: url("src/assets/images/xtxlogo.png") no-repeat center 18px/contain;
+      background: url("src/assets/images/xtxlogo.png") no-repeat center 18px /
+        contain;
     }
   }
-
 
   .search {
     width: 170px;
