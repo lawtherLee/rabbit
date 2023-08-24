@@ -1,28 +1,30 @@
-<script lang="ts" name="AppHeaderCart" setup></script>
+<script lang="ts" name="AppHeaderCart" setup>
+import useStore from "@/store";
+
+const { cartStore } = useStore();
+cartStore.getCart();
+</script>
 
 <template>
   <div class="cart">
     <a class="curr" href="javascript:">
       <i class="iconfont icon-cart"></i>
-      <em>2</em>
+      <em>{{ cartStore.cartCount }}</em>
     </a>
     <div class="layer">
       <div class="list">
-        <div v-for="i in 4" :key="i" class="item">
+        <div v-for="item in cartStore.list" :key="item.id" class="item">
           <RouterLink to="">
-            <img
-              alt=""
-              src="https://yanxuan-item.nosdn.127.net/ead73130f3dbdb3cabe1c7b0f4fd3d28.png"
-            />
+            <img :src="item.picture" alt="" />
             <div class="center">
               <p class="name ellipsis-2">
-                和手足干裂说拜拜 ingrams手足皲裂修复霜
+                {{ item.name }}
               </p>
-              <p class="attr ellipsis">颜色：修复绿瓶 容量：150ml</p>
+              <p class="attr ellipsis">{{ item.attrsText }}</p>
             </div>
             <div class="right">
-              <p class="price">&yen;45.00</p>
-              <p class="count">x2</p>
+              <p class="price">&yen;{{ item.nowPrice }}</p>
+              <p class="count">x{{ item.count }}</p>
             </div>
           </RouterLink>
           <i class="iconfont icon-close-new"></i>
@@ -30,8 +32,8 @@
       </div>
       <div class="foot">
         <div class="total">
-          <p>共 3 件商品</p>
-          <p>&yen;135.00</p>
+          <p>共 {{ cartStore.cartCount }} 件商品</p>
+          <p>&yen;{{ cartStore.cartTotalPrice }}</p>
         </div>
         <XtxButton type="plain">去购物车结算</XtxButton>
       </div>
