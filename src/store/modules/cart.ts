@@ -16,6 +16,7 @@ export default defineStore("", {
         skuId,
         count,
       });
+      await this.getCart();
     },
     // 获取购物车数据
     async getCart() {
