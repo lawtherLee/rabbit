@@ -24,6 +24,15 @@ export default defineStore("", {
       console.log(res);
       this.list = res.data.result;
     },
+    // 删除购物车
+    async delCart(skuIds: string[]) {
+      await request.delete("/member/cart", {
+        data: {
+          ids: skuIds,
+        },
+      });
+      await this.getCart();
+    },
   },
   getters: {
     cartCount(): number {
@@ -31,9 +40,9 @@ export default defineStore("", {
         return acc + item.count;
       }, 0);
     },
-    cartTotalPrice() {
+    cartTotalPrice(): string {
       return this.list
-        .reduce((price, item) => {
+        .reduce((price: number, item: CartItem) => {
           return price + item.count * item.price;
         }, 0)
         .toFixed(2);
