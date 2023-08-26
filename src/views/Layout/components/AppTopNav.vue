@@ -1,9 +1,15 @@
 <script lang="ts" setup>
 import { useRouter } from "vue-router";
 import useStore from "@/store";
+import Confirm from "@/components/confirm/index.ts";
 
 const router = useRouter();
 const { userStore } = useStore();
+
+const onLogout = async () => {
+  await Confirm("小兔", "确认退出吗");
+  userStore.logout();
+};
 </script>
 
 <template>
@@ -16,7 +22,7 @@ const { userStore } = useStore();
             {{ userStore.profile.nickname || userStore.profile.account }}
           </a>
         </li>
-        <li><a href="javascript:" @click="userStore.logout()">退出登录</a></li>
+        <li><a href="javascript:" @click="onLogout">退出登录</a></li>
         <li>
           <a href="javascript:" @click="router.push('/login')">请先登录</a>
         </li>
