@@ -43,7 +43,15 @@ const onUpdateCount = (skuId: string, count: number) => {
           <tbody>
             <tr v-for="item in cartStore.list" :key="item.id">
               <td>
-                <XtxCheckbox v-model="item.selected" />
+                <XtxCheckbox
+                  v-model="item.selected"
+                  @click="
+                    cartStore.updateCart(item.skuId, {
+                      selected: item.selected,
+                      count: item.count,
+                    })
+                  "
+                />
               </td>
               <td>
                 <div class="goods">
