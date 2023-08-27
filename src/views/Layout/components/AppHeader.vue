@@ -15,10 +15,8 @@ import AppHeaderCart from "@/views/Layout/components/AppHeaderCart.vue";
         <input placeholder="搜一搜" type="text" />
       </div>
       <div class="cart">
-        <a class="curr" href="#">
-          <!--          <i class="iconfont icon-cart"></i><em>2</em>-->
-          <AppHeaderCart />
-        </a>
+        <!--          <i class="iconfont icon-cart"></i><em>2</em>-->
+        <AppHeaderCart />
       </div>
     </div>
   </header>

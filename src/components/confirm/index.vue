@@ -1,5 +1,6 @@
 <script lang="ts" name="XtxConfirm" setup>
 import XtxButton from "@/components/button/index.vue";
+import { onMounted, ref } from "vue";
 
 const props = defineProps<{
   title?: string;
@@ -7,10 +8,17 @@ const props = defineProps<{
   onConfirm: () => void;
   onCancel: () => void;
 }>();
+
+const show = ref(false);
+onMounted(() => {
+  setTimeout(() => {
+    show.value = true;
+  }, 20);
+});
 </script>
 <template>
-  <div class="xtx-confirm">
-    <div class="wrapper">
+  <div :class="{ fade: show }" class="xtx-confirm">
+    <div :class="{ fade: show }" class="wrapper">
       <div class="header">
         <h3>{{ props.title || "温馨提示" }}</h3>
         <a class="iconfont icon-close-new" href="JavaScript:"></a>
@@ -37,7 +45,13 @@ const props = defineProps<{
   width: 100%;
   height: 100%;
   z-index: 8888;
-  background: rgba(0, 0, 0, 0.5);
+
+  background: rgba(0, 0, 0, 0);
+
+  &.fade {
+    transition: all 0.4s;
+    background: rgba(0, 0, 0, 0.5);
+  }
 
   .wrapper {
     width: 400px;
@@ -46,7 +60,14 @@ const props = defineProps<{
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -60%);
+    opacity: 0;
+
+    &.fade {
+      transition: all 0.4s;
+      transform: translate(-50%, -50%);
+      opacity: 1;
+    }
 
     .header,
     .footer {

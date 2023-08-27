@@ -47,5 +47,23 @@ export default defineStore("", {
         }, 0)
         .toFixed(2);
     },
+    selectedGoods(): number {
+      return this.list.reduce((count: number, item: CartItem) => {
+        if (item.selected) {
+          return count + item.count;
+        }
+        return count;
+      }, 0);
+    },
+    selectedTotalPrice(): string {
+      return this.list
+        .reduce((price: number, item: CartItem) => {
+          if (item.selected) {
+            return price + item.count * item.price;
+          }
+          return price;
+        }, 0)
+        .toFixed(2);
+    },
   },
 });

@@ -7,8 +7,8 @@ const {
 } = defineProps<{
   isShowLabel: boolean;
   buyCount: number;
-  min: number;
-  max: number;
+  min?: number;
+  max?: number;
 }>();
 
 const emit = defineEmits(["update:buyCount"]);
