@@ -84,7 +84,7 @@ const onRemove = async (id: string) => {
                   <img alt="" src="@/assets/images/none.png" />
                   <p>购物车内暂时没有商品</p>
                   <div class="btn" style="margin: 20px">
-                    <XtxButton type="primary"> 继续逛逛 </XtxButton>
+                    <XtxButton to="/" type="primary"> 继续逛逛</XtxButton>
                   </div>
                 </div>
               </td>

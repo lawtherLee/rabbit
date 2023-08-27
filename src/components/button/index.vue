@@ -1,7 +1,9 @@
 <script lang="ts" name="XtxButton" setup>
 import { PropType } from "vue";
+import { useRouter } from "vue-router";
 
-defineProps({
+const router = useRouter();
+const props = defineProps({
   size: {
     type: String as PropType<"large" | "middle" | "small" | "mini">,
     default: "middle",
@@ -10,10 +12,19 @@ defineProps({
     type: String as PropType<"default" | "primary" | "plain" | "gray">,
     default: "default",
   },
+  to: {
+    type: String,
+  },
 });
+
+const go = () => {
+  if (props.to) {
+    router.push(props.to);
+  }
+};
 </script>
 <template>
-  <button :class="[size, type]" class="xtx-button ellipsis">
+  <button :class="[size, type]" class="xtx-button ellipsis" @click="go">
     <slot />
   </button>
 </template>
