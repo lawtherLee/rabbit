@@ -21,7 +21,6 @@ export default defineStore("", {
     // 获取购物车数据
     async getCart() {
       const res = await request.get<IAxiosRes<CartItem[]>>("/member/cart");
-      console.log(res);
       this.list = res.data.result;
     },
     // 删除购物车

@@ -2,9 +2,15 @@
 //
 import { ref } from "vue";
 import useStore from "@/store";
+import Confirm from "@/components/confirm/index.ts";
 
 const isAllCheck = ref(true);
 const { cartStore } = useStore();
+
+const onRemove = async (id: string) => {
+  await Confirm("小兔仙", "确认删除该商品？");
+  await cartStore.delCart([id]);
+};
 </script>
 
 <template>
@@ -60,8 +66,27 @@ const { cartStore } = useStore();
               </td>
               <td class="tc">
                 <p><a href="javascript:">移入收藏夹</a></p>
-                <p><a class="green" href="javascript:">删除</a></p>
+                <p>
+                  <a
+                    class="green"
+                    href="javascript:"
+                    @click="onRemove(item.skuId)"
+                    >删除</a
+                  >
+                </p>
                 <p><a href="javascript:">找相似</a></p>
+              </td>
+            </tr>
+            <!-- 删除光购物车之后使用元素占位 -->
+            <tr v-if="!cartStore.list.length">
+              <td colspan="6">
+                <div class="cart-none" style="text-align: center">
+                  <img alt="" src="@/assets/images/none.png" />
+                  <p>购物车内暂时没有商品</p>
+                  <div class="btn" style="margin: 20px">
+                    <XtxButton type="primary"> 继续逛逛 </XtxButton>
+                  </div>
+                </div>
               </td>
             </tr>
           </tbody>
