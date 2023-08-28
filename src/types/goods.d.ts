@@ -11,7 +11,7 @@ export type Sku = {
   id: string;
   inventory: number;
   oldPrice: string;
-  price: string;
+  price: number;
   skuCode: string;
   specs: { name: string; valueName: string }[];
 };
@@ -31,8 +31,8 @@ export type GoodsInfo = {
   name: string;
   spuCode: string;
   desc: string;
-  price: string;
-  oldPrice: string;
+  price: number;
+  oldPrice: number;
   discount: number;
   inventory: number;
   salesCount: number;

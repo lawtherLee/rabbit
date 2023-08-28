@@ -10,7 +10,8 @@ import { Sku } from "@/types/goods";
 import { ref } from "vue";
 import GoodsDetail from "@/views/Goods/components/GoodsDetail.vue";
 import GoodsHot from "@/views/Goods/components/GoodsHot.vue";
-import Message from "@/components/message/index.ts"; // 响应式
+import Message from "@/components/message/index.ts";
+import { CartItem } from "@/types/cart"; // 响应式
 
 const route = useRoute();
 const { goodsStore, cartStore } = useStore();
@@ -23,7 +24,7 @@ goodsStore.getGoodsInfo(route.params.goodsId as string);
 const onGetSku = (sku: Sku) => {
   // console.log(sku);
   goods.value.price = sku.price;
-  goods.value.oldPrice = sku.oldPrice;
+  goods.value.oldPrice = Number(sku.oldPrice);
   currentSku = sku;
 };
 
@@ -31,7 +32,20 @@ const onGetSku = (sku: Sku) => {
 const buyCount = ref(1);
 const addShopCar = async () => {
   if (!currentSku.id) Message.warning("请选择完整的规格");
-  await cartStore.addCart(currentSku.id, buyCount.value);
+  await cartStore.addCart({
+    // 本地添加
+    id: goods.value.id,
+    name: goods.value.name,
+    picture: goods.value.mainPictures[0],
+    price: goods.value.price,
+    count: buyCount.value,
+    skuId: currentSku.id,
+    attrsText: "",
+    selected: true,
+    nowPrice: goods.value.price,
+    stock: goods.value.inventory,
+    isEffective: true,
+  } as CartItem);
   Message.success("添加成功");
 };
 </script>

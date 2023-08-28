@@ -3,6 +3,7 @@ import request from "@/utils/request.ts";
 import { IAxiosRes } from "@/types/data";
 import { CartItem } from "@/types/cart";
 import Message from "@/components/message/index.ts";
+import useStore from "@/store";
 
 export default defineStore("", {
   state: () => {
@@ -12,18 +13,31 @@ export default defineStore("", {
   },
   actions: {
     // 添加购物车
-    async addCart(skuId: string, count: number) {
-      await request.post("/member/cart", {
-        skuId,
-        count,
-      });
-      await this.getCart();
+    async addCart(data: CartItem) {
+      if (this.isLogin) {
+        const { skuId, count } = data;
+        await request.post("/member/cart", {
+          skuId,
+          count,
+        });
+        await this.getCart();
+      } else {
+        console.log("操作本地", data);
+        const findItem = this.list.find((item) => item.id === data.id);
+        if (findItem) {
+          findItem.count += data.count;
+        } else {
+          this.list.unshift(data);
+          console.log();
+        }
+      }
     },
     // 获取购物车数据
     async getCart() {
       const res = await request.get<IAxiosRes<CartItem[]>>("/member/cart");
       this.list = res.data.result;
     },
+
     // 删除购物车
     async delCart(skuIds: string[]) {
       await request.delete("/member/cart", {
@@ -31,6 +45,7 @@ export default defineStore("", {
           ids: skuIds,
         },
       });
+
       await this.getCart();
     },
     // 监听数量变化
@@ -60,6 +75,11 @@ export default defineStore("", {
     },
   },
   getters: {
+    // 区分是否登录
+    isLogin(): boolean {
+      const { userStore } = useStore();
+      return !!userStore.profile.token; // 隐式转换布尔值
+    },
     cartCount(): number {
       return this.list.reduce((acc: number, item: CartItem) => {
         return acc + item.count;

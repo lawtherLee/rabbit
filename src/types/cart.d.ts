@@ -1,18 +1,18 @@
 export type CartItem = {
   attrsText: string;
   count: number;
-  discount: null;
+  discount?: null;
   id: string;
-  isCollect: boolean;
+  isCollect?: boolean;
   isEffective: boolean;
   name: string;
-  nowOriginalPrice: string;
+  nowOriginalPrice?: string;
   picture: string;
-  postFee: number;
+  postFee?: number;
   price: number;
   selected: boolean;
   skuId: string;
-  specs: string[];
+  specs?: string[];
   stock: number;
-  nowPrice: string;
+  nowPrice: number;
 };

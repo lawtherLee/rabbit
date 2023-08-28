@@ -66,7 +66,7 @@ const onUpdateCount = (skuId: string, count: number) => {
                     <p class="name ellipsis">
                       {{ item.name }}
                     </p>
-                    <p class="attr">商品规格</p>
+                    <p class="attr">{{ item.attrsText }}</p>
                   </div>
                 </div>
               </td>
