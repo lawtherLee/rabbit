@@ -54,6 +54,10 @@ export default defineStore("", {
       await request.put("/member/cart/" + skuId, data);
       Message.success("更新成功");
     },
+    async updateAllCheck(selected: boolean) {
+      await request.put("member/cart/selected", { selected });
+      await this.getCart();
+    },
   },
   getters: {
     cartCount(): number {
@@ -85,6 +89,9 @@ export default defineStore("", {
           return price;
         }, 0)
         .toFixed(2);
+    },
+    isAllCheck(): boolean {
+      return this.list.every((item) => item.selected);
     },
   },
 });

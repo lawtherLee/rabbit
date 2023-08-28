@@ -1,10 +1,8 @@
 <script lang="ts" name="Cart" setup>
 //
-import { ref } from "vue";
 import useStore from "@/store";
 import Confirm from "@/components/confirm/index.ts";
 
-const isAllCheck = ref(true);
 const { cartStore } = useStore();
 
 const onRemove = async (id: string) => {
@@ -30,7 +28,13 @@ const onUpdateCount = (skuId: string, count: number) => {
           <thead>
             <tr>
               <th width="120">
-                <XtxCheckbox v-model="isAllCheck">全选</XtxCheckbox>
+                <XtxCheckbox
+                  :model-value="cartStore.isAllCheck"
+                  @update:model-value="
+                    cartStore.updateAllCheck(!cartStore.isAllCheck)
+                  "
+                  >全选
+                </XtxCheckbox>
               </th>
               <th width="400">商品信息</th>
               <th width="220">单价</th>
