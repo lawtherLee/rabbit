@@ -34,8 +34,16 @@ export default defineStore("", {
     },
     // 获取购物车数据
     async getCart() {
-      const res = await request.get<IAxiosRes<CartItem[]>>("/member/cart");
-      this.list = res.data.result;
+      if (this.isLogin) {
+        const res = await request.get<IAxiosRes<CartItem[]>>("/member/cart");
+        this.list = res.data.result;
+        return;
+      }
+      for (const item of this.list) {
+        const res = await request.get("/goods/stock/" + item.skuId);
+        item.nowPrice = res.data.result.nowPrice;
+        item.stock = res.data.result.stock;
+      }
     },
 
     // 删除购物车
@@ -82,9 +90,14 @@ export default defineStore("", {
         findItem.selected = data.selected;
       }
     },
+    // 更新全选
     async updateAllCheck(selected: boolean) {
-      await request.put("member/cart/selected", { selected });
-      await this.getCart();
+      if (this.isLogin) {
+        await request.put("member/cart/selected", { selected });
+        await this.getCart();
+        return;
+      }
+      this.list.forEach((item) => (item.selected = selected));
     },
   },
   getters: {
