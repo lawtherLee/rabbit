@@ -6,6 +6,7 @@ import Message from "@/components/message/index.ts";
 import useStore from "@/store";
 
 export default defineStore("", {
+  persist: true,
   state: () => {
     return {
       list: [] as CartItem[],
@@ -39,13 +40,16 @@ export default defineStore("", {
 
     // 删除购物车
     async delCart(skuIds: string[]) {
-      await request.delete("/member/cart", {
-        data: {
-          ids: skuIds,
-        },
-      });
-
-      await this.getCart();
+      if (this.isLogin) {
+        await request.delete("/member/cart", {
+          data: {
+            ids: skuIds,
+          },
+        });
+        await this.getCart();
+      } else {
+        this.list = this.list.filter((item) => !skuIds.includes(item.skuId));
+      }
     },
     // 监听数量变化
     async changeCount(id: string, count: number) {
