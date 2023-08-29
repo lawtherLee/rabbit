@@ -7,7 +7,7 @@ import Message from "@/components/message/index.ts";
 import { useCountDown } from "@/hooks";
 
 const router = useRouter();
-const { userStore } = useStore();
+const { userStore, cartStore } = useStore();
 const loginType = ref<"account" | "mobile">("account");
 
 const onChange = () => {
@@ -117,6 +117,8 @@ const onLogin = async () => {
   }
   await router.push("/");
   Message.success("登录成功");
+  // 合并购物车
+  await cartStore.mergeStorageCart();
 };
 
 // 发送验证码

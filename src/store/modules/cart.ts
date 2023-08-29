@@ -87,7 +87,9 @@ export default defineStore("", {
       if (data.selected === undefined && findItem) {
         findItem.count = data.count;
       } else {
-        findItem.selected = data.selected;
+        if (data.selected) {
+          findItem.selected = data.selected;
+        }
       }
     },
     // 更新全选
@@ -98,6 +100,16 @@ export default defineStore("", {
         return;
       }
       this.list.forEach((item) => (item.selected = selected));
+    },
+    // 合并购物车
+    async mergeStorageCart() {
+      const data = this.list.map((item) => ({
+        skuId: item.skuId,
+        count: item.count,
+        selected: item.selected,
+      }));
+      await request.post("/member/cart/merge", data);
+      await this.getCart();
     },
   },
   getters: {
