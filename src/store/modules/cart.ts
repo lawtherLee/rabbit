@@ -69,8 +69,18 @@ export default defineStore("", {
         count: number;
       },
     ) {
-      await request.put("/member/cart/" + skuId, data);
-      Message.success("更新成功");
+      if (this.isLogin) {
+        await request.put("/member/cart/" + skuId, data);
+        Message.success("更新成功");
+        return;
+      }
+      const findItem = this.list.find((item) => item.skuId === skuId);
+      if (!findItem) return;
+      if (data.selected === undefined && findItem) {
+        findItem.count = data.count;
+      } else {
+        findItem.selected = data.selected;
+      }
     },
     async updateAllCheck(selected: boolean) {
       await request.put("member/cart/selected", { selected });
