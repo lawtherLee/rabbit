@@ -28,7 +28,6 @@ export default defineStore("", {
           findItem.count += data.count;
         } else {
           this.list.unshift(data);
-          console.log();
         }
       }
     },

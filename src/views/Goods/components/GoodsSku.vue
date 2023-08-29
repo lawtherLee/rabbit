@@ -58,11 +58,12 @@ const subSku = () => {
   });
 };
 
-// sku禁用状态
+// sku禁用状态;
 // 1.筛选所有有效sku
 const optional = () => {
   return props.goods.skus.filter((item) => item.inventory);
 };
+
 // 2.在有效sku中规格，必然也是有效的
 const pathMap: any = {};
 optional().forEach((sku) => {
@@ -74,10 +75,12 @@ optional().forEach((sku) => {
     pathMap[key] = true;
   });
 });
+
 // 4.默认选中 根据每一项的值和组合的值 去路径字典查找
 const upDateSpecBtnDisable = () => {
   const selectedArr = getSelected();
   // console.log(selectedArr);
+
   props.goods.specs.forEach((spec, index) => {
     spec.values.forEach((specBtn) => {
       const tempArr = [...selectedArr]; // 浅拷贝用于路径拼接
@@ -89,6 +92,7 @@ const upDateSpecBtnDisable = () => {
     });
   });
 };
+
 // 获取当前选中状态
 const getSelected = () => {
   const selectedArr: string[] = [];
