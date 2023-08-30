@@ -1,5 +1,9 @@
 <script lang="ts" name="XtxPayCheckoutPage" setup>
+import useStore from "@/store";
+
 console.log(123);
+const { checkoutStore } = useStore();
+checkoutStore.getCheckoutInfo();
 </script>
 
 <template>
