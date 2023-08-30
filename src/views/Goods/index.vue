@@ -34,10 +34,11 @@ const addShopCar = async () => {
   if (!currentSku.id) Message.warning("请选择完整的规格");
 
   // 处理字符串 对象数组中的value
+  // console.log(currentSku);
   const attrsText = currentSku.specs
     .map((item) => item.name + ":" + item.valueName)
     .join(" ");
-  console.log(attrsText);
+  // console.log(attrsText);
   await cartStore.addCart({
     // 本地添加
     id: goods.value.id,

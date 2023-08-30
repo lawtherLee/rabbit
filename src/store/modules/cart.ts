@@ -5,7 +5,7 @@ import { CartItem } from "@/types/cart";
 import Message from "@/components/message/index.ts";
 import useStore from "@/store";
 
-export default defineStore("", {
+export default defineStore("cart", {
   persist: true,
   state: () => {
     return {

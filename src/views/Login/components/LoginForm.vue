@@ -2,11 +2,12 @@
 import { ref } from "vue";
 import { useField, useForm } from "vee-validate";
 import useStore from "@/store";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import Message from "@/components/message/index.ts";
 import { useCountDown } from "@/hooks";
 
 const router = useRouter();
+const route = useRoute();
 const { userStore, cartStore } = useStore();
 const loginType = ref<"account" | "mobile">("account");
 
@@ -115,7 +116,10 @@ const onLogin = async () => {
     if (!mobileValid || !codeValid) return;
     await userStore.mobileLogin(mobile.value, code.value);
   }
-  await router.push("/");
+
+  const path = route.query.redirect || "/";
+  await router.push(path as string);
+
   Message.success("登录成功");
   // 合并购物车
   await cartStore.mergeStorageCart();
@@ -136,7 +140,7 @@ const sendCode = async () => {
   Message.success("验证码已发送");
   start();
   // time.value = 60;
-  // // 倒计时
+  // // 倒计时(使用useCountDown了)
   // timer = window.setInterval(() => {
   //   time.value--;
   //   if (time.value === 0) {
