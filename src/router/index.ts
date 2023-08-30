@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory } from "vue-router";
+import useStore from "@/store";
 
 const router = createRouter({
   scrollBehavior() {
@@ -55,4 +56,12 @@ const router = createRouter({
   ],
 });
 
+router.beforeEach((to, from, next) => {
+  const { cartStore } = useStore();
+  if (!cartStore.isLogin && to.path.startsWith("/member")) {
+    next("/login");
+  } else {
+    next();
+  }
+});
 export default router;
