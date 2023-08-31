@@ -1,11 +1,30 @@
 import { defineStore } from "pinia";
+import request from "@/utils/request.ts";
+import { IAxiosRes } from "@/types/data";
+import { CheckoutInfo, UserAddress } from "@/types/checkout.ts";
 
 export default defineStore("checkout", {
   state: () => {
-    return {};
+    return {
+      checkoutInfo: {} as CheckoutInfo,
+    };
   },
   actions: {
     // 获取结算信息
-    getCheckoutInfo() {},
+    async getCheckoutInfo() {
+      const res = await request.get<IAxiosRes<CheckoutInfo>>(
+        "/member/order/pre",
+      );
+      this.checkoutInfo = res.data.result;
+    },
+  },
+  getters: {
+    showUserAddress(): UserAddress | null {
+      if (this.checkoutInfo.userAddresses.length) return null;
+      const findItem = this.checkoutInfo.userAddresses.find(
+        (item) => !item.isDefault,
+      );
+      return findItem || this.checkoutInfo.userAddresses[0];
+    },
   },
 });
