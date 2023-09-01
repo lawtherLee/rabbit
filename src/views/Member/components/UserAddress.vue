@@ -1,4 +1,8 @@
-<script lang="ts" name="CheckoutAddress" setup></script>
+<script lang="ts" name="CheckoutAddress" setup>
+import useStore from "@/store";
+
+const { checkoutStore } = useStore();
+</script>
 <template>
   <div class="checkout-address">
     <div class="text">
@@ -16,11 +20,11 @@
         </li>
         <li>
           <span>联系方式：</span>
-          132****2222
+          {{ checkoutStore.showUserAddress?.contact }}
         </li>
         <li>
           <span>收货地址：</span>
-          海南省三亚市解放路108号物质大厦1003室
+          {{ checkoutStore.showUserAddress?.cityCode }}
         </li>
       </ul>
       <a href="javascript:">修改地址</a>

@@ -16,15 +16,19 @@ export default defineStore("checkout", {
         "/member/order/pre",
       );
       this.checkoutInfo = res.data.result;
+      console.log(this.checkoutInfo);
     },
   },
   getters: {
     showUserAddress(): UserAddress | null {
-      if (this.checkoutInfo.userAddresses.length) return null;
-      const findItem = this.checkoutInfo.userAddresses.find(
-        (item) => !item.isDefault,
-      );
-      return findItem || this.checkoutInfo.userAddresses[0];
+      if (!this.checkoutInfo.userAddresses?.length) {
+        return null;
+      } else {
+        const findItem = this.checkoutInfo.userAddresses?.find(
+          (item) => !item.isDefault,
+        );
+        return findItem || this.checkoutInfo.userAddresses[0];
+      }
     },
   },
 });

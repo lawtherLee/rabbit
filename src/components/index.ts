@@ -12,6 +12,7 @@ import XtxButton from "@/components/button/index.vue";
 import XtxConfirm from "@/components/confirm/index.vue";
 import XtxCheckbox from "@/components/checkbox/index.vue";
 import XtxMessage from "@/components/message/index.vue";
+import XtxDialog from "@/components/dialog/index.vue";
 import { useIntersectionObserver } from "@vueuse/core";
 import defaultImg from "@/assets/images/200.png";
 
@@ -28,6 +29,7 @@ const components = [
   XtxCheckbox,
   XtxMessage,
   XtxConfirm,
+  XtxDialog,
 ];
 
 export default function (app: App) {

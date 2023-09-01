@@ -8,6 +8,7 @@ import XtxButton from "@/components/button/index.vue";
 import XtxCheckbox from "@/components/checkbox/index.vue";
 import XtxMessage from "@/components/message/index.vue";
 import XtxConfirm from "@/components/confirm/index.vue";
+import XtxDialog from "@/components/dialog/index.vue";
 
 declare module "vue" {
   export interface GlobalComponents {
@@ -22,6 +23,7 @@ declare module "vue" {
     XtxCheckbox: typeof XtxCheckbox;
     XtxMessage: typeof XtxMessage;
     XtxConfirm: typeof XtxConfirm;
+    XtxDialog: typeof XtxDialog;
   }
 }
 export {};
