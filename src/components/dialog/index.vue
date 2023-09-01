@@ -1,18 +1,39 @@
 <script lang="ts" name="XtxDialog" setup>
-console.log(123);
+const { title = "对话框" } = defineProps<{
+  title?: string;
+  modelValue: boolean;
+}>();
+
+const emit = defineEmits(["update:modelValue", "close"]);
+
+const onClose = () => {
+  emit("update:modelValue", false);
+  emit("close");
+};
 </script>
 <template>
-  <div class="xtx-dialog">
+  <div v-if="modelValue" class="xtx-dialog">
     <div class="wrapper">
       <div class="header">
-        <h3>切换收货地址</h3>
-        <a class="iconfont icon-close-new" href="JavaScript:"></a>
+        <h3>{{ title }}</h3>
+        <a
+          class="iconfont icon-close-new"
+          href="JavaScript:"
+          @click="onClose"
+        ></a>
       </div>
-      <div class="body">对话框内容</div>
-      <div class="footer">
-        <XtxButton style="margin-right: 20px" type="gray"> 取消</XtxButton>
-        <XtxButton type="primary">确认</XtxButton>
+      <div class="body">
+        <slot name="body" />
       </div>
+
+      <slot name="footer">
+        <div class="footer">
+          <XtxButton style="margin-right: 20px" type="gray" @click="onClose">
+            取消
+          </XtxButton>
+          <XtxButton type="primary">确认</XtxButton>
+        </div>
+      </slot>
     </div>
   </div>
 </template>
