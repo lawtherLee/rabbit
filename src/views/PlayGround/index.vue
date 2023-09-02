@@ -1,11 +1,18 @@
 <template>
   <div>
-    <XtxDialog v-model="visible" title="添加收货地址" @close="onClose">
-      <template #body>
-        <div>form</div>
-      </template>
-      <template></template>
-    </XtxDialog>
+    <teleport to="body">
+      <XtxDialog
+        v-model="visible"
+        title="添加收货地址"
+        @close="onClose"
+        @confirm="onConfirm"
+      >
+        <template #body>
+          <div>form</div>
+        </template>
+        <template></template>
+      </XtxDialog>
+    </teleport>
   </div>
 </template>
 
@@ -16,6 +23,9 @@ const visible = ref(true);
 
 const onClose = () => {
   console.log("close");
+};
+const onConfirm = () => {
+  console.log("confirm");
 };
 </script>
 

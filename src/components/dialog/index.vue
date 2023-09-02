@@ -1,19 +1,31 @@
 <script lang="ts" name="XtxDialog" setup>
+import { onClickOutside } from "@vueuse/core";
+import { ref } from "vue";
+
+const target = ref(null);
+
+onClickOutside(target, (e) => {
+  onClose();
+});
 const { title = "对话框" } = defineProps<{
   title?: string;
   modelValue: boolean;
 }>();
 
-const emit = defineEmits(["update:modelValue", "close"]);
+const emit = defineEmits(["update:modelValue", "close", "confirm"]);
 
 const onClose = () => {
   emit("update:modelValue", false);
   emit("close");
 };
+
+const onConfirm = () => {
+  emit("confirm");
+};
 </script>
 <template>
   <div v-if="modelValue" class="xtx-dialog">
-    <div class="wrapper">
+    <div ref="target" class="wrapper">
       <div class="header">
         <h3>{{ title }}</h3>
         <a
@@ -26,14 +38,14 @@ const onClose = () => {
         <slot name="body" />
       </div>
 
-      <slot name="footer">
-        <div class="footer">
+      <div class="footer">
+        <slot name="footer">
           <XtxButton style="margin-right: 20px" type="gray" @click="onClose">
             取消
           </XtxButton>
-          <XtxButton type="primary">确认</XtxButton>
-        </div>
-      </slot>
+          <XtxButton type="primary" @click="onConfirm">确认</XtxButton>
+        </slot>
+      </div>
     </div>
   </div>
 </template>

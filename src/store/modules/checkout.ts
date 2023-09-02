@@ -18,6 +18,16 @@ export default defineStore("checkout", {
       this.checkoutInfo = res.data.result;
       console.log(this.checkoutInfo);
     },
+    async addAddress(address: UserAddress) {
+      await request.post("/member/address", address);
+      // 添加完地址，重新渲染
+      await this.getCheckoutInfo();
+    },
+    async updateAddress(address: UserAddress) {
+      await request.put(`/member/address/${address.id}`, address);
+      // 添加完地址，重新渲染
+      await this.getCheckoutInfo();
+    },
   },
   getters: {
     showUserAddress(): UserAddress | null {

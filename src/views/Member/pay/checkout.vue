@@ -1,14 +1,41 @@
 <script lang="ts" name="XtxPayCheckoutPage" setup>
-import useStore from "@/store";
-import UserAddress from "@/views/Member/components/UserAddress.vue";
+import Message from "@/components/message";
 
-console.log(123);
-const { checkoutStore } = useStore();
-checkoutStore.getCheckoutInfo();
+import useStore from "@/store";
+import request from "@/utils/request.ts";
+import { useRouter } from "vue-router";
+import CheckoutAddress from "./components/CheckoutAddress.vue";
+
+const router = useRouter();
+const { checkoutStore: checkout, cartStore: cart } = useStore();
+checkout.getCheckoutInfo();
+
+const submitCheckout = async () => {
+  // 如果地址为空，不能提交订单
+  if (!checkout.showUserAddress) {
+    return Message.warning("请选择收货地址");
+  }
+  const res = await request.post("/member/order", {
+    goods: checkout.checkoutInfo.goods.map((item) => {
+      return {
+        skuId: item.skuId,
+        count: item.count,
+      };
+    }),
+    addressId: checkout.showUserAddress.id,
+  });
+  // 成功提醒用户
+  Message.success("下单成功");
+  // 🔔重新获取购物车列表
+  await cart.getCart();
+  // 跳转到支付页面
+
+  await router.replace("/member/pay?id=" + res.data.result.id);
+};
 </script>
 
 <template>
-  <div class="xtx-pay-checkout-page">
+  <div v-if="checkout.checkoutInfo.goods" class="xtx-pay-checkout-page">
     <div class="container">
       <XtxBread>
         <XtxBreadItem to="/">首页</XtxBreadItem>
@@ -19,7 +46,7 @@ checkoutStore.getCheckoutInfo();
         <!-- 收货地址 -->
         <h3 class="box-title">收货地址</h3>
         <div class="box-body">
-          <UserAddress />
+          <CheckoutAddress></CheckoutAddress>
         </div>
         <!-- 商品信息 -->
         <h3 class="box-title">商品信息</h3>
@@ -35,19 +62,17 @@ checkoutStore.getCheckoutInfo();
               </tr>
             </thead>
             <tbody>
-              <tr
-                v-for="item in checkoutStore.checkoutInfo.goods"
-                :key="item.id"
-              >
+              <tr v-for="item in checkout.checkoutInfo.goods" :key="item.skuId">
                 <td>
-                  <a class="info" href="javascript:">
+                  <RouterLink :to="`/goods/${item.id}`" class="info">
                     <img :src="item.picture" alt="" />
                     <div class="right">
                       <p>{{ item.name }}</p>
                       <p>{{ item.attrsText }}</p>
                     </div>
-                  </a>
+                  </RouterLink>
                 </td>
+                <!-- 原则：不应该我们计算 -->
                 <td>&yen;{{ item.price }}</td>
                 <td>{{ item.count }}</td>
                 <td>&yen;{{ item.totalPrice }}</td>
@@ -59,13 +84,11 @@ checkoutStore.getCheckoutInfo();
         <!-- 配送时间 -->
         <h3 class="box-title">配送时间</h3>
         <div class="box-body">
-          <a class="my-btn active" href="javascript:">
-            不限送货时间：周一至周日
-          </a>
-          <a class="my-btn" href="javascript:"> 工作日送货：周一至周五 </a>
-          <a class="my-btn" href="javascript:">
-            双休日、假日送货：周六至周日
-          </a>
+          <a class="my-btn active" href="javascript:"
+            >不限送货时间：周一至周日</a
+          >
+          <a class="my-btn" href="javascript:">工作日送货：周一至周五</a>
+          <a class="my-btn" href="javascript:">双休日、假日送货：周六至周日</a>
         </div>
         <!-- 支付方式 -->
         <h3 class="box-title">支付方式</h3>
@@ -80,31 +103,27 @@ checkoutStore.getCheckoutInfo();
           <div class="total">
             <dl>
               <dt>商品件数：</dt>
-              <dd>{{ checkoutStore.checkoutInfo.summary?.goodsCount }}件</dd>
+              <dd>{{ checkout.checkoutInfo.summary.goodsCount }}件</dd>
             </dl>
             <dl>
               <dt>商品总价：</dt>
-              <dd>¥{{ checkoutStore.checkoutInfo.summary?.totalPrice }}</dd>
+              <dd>¥{{ checkout.checkoutInfo.summary.totalPrice }}</dd>
             </dl>
             <dl>
-              <dt>
-                运
-                <i></i>
-                费：
-              </dt>
-              <dd>¥{{ checkoutStore.checkoutInfo.summary?.postFee }}</dd>
+              <dt>运<i></i>费：</dt>
+              <dd>¥{{ checkout.checkoutInfo.summary.postFee }}</dd>
             </dl>
             <dl>
               <dt>应付总额：</dt>
               <dd class="price">
-                ¥{{ checkoutStore.checkoutInfo.summary?.totalPayPrice }}
+                ¥{{ checkout.checkoutInfo.summary.totalPayPrice }}
               </dd>
             </dl>
           </div>
         </div>
         <!-- 提交订单 -->
         <div class="submit">
-          <XtxButton type="primary">提交订单</XtxButton>
+          <XtxButton type="primary" @click="submitCheckout">提交订单</XtxButton>
         </div>
       </div>
     </div>
@@ -128,70 +147,6 @@ checkoutStore.getCheckoutInfo();
     padding: 20px 0;
   }
 }
-
-//.address {
-//  border: 1px solid #f5f5f5;
-//  display: flex;
-//  align-items: center;
-//
-//  .text {
-//    flex: 1;
-//    min-height: 90px;
-//    display: flex;
-//    align-items: center;
-//
-//    .none {
-//      line-height: 90px;
-//      color: #999;
-//      text-align: center;
-//      width: 100%;
-//    }
-//
-//    > ul {
-//      flex: 1;
-//      padding: 20px;
-//
-//      li {
-//        line-height: 30px;
-//
-//        span {
-//          color: #999;
-//          margin-right: 5px;
-//
-//          > i {
-//            width: 0.5em;
-//            display: inline-block;
-//          }
-//        }
-//      }
-//    }
-//
-//    > a {
-//      color: @xtxColor;
-//      width: 160px;
-//      text-align: center;
-//      height: 90px;
-//      line-height: 90px;
-//      border-right: 1px solid #f5f5f5;
-//    }
-//  }
-//
-//  .action {
-//    width: 420px;
-//    text-align: center;
-//
-//    .btn {
-//      width: 140px;
-//      height: 46px;
-//      line-height: 44px;
-//      font-size: 14px;
-//
-//      &:first-child {
-//        margin-right: 10px;
-//      }
-//    }
-//  }
-//}
 
 .goods {
   width: 100%;

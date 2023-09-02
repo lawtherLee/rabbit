@@ -22,11 +22,13 @@ const onUpdateCount = (skuId: string, count: number) => {
 const goCheckout = async () => {
   const isSelected = cartStore.list.some((item) => item.selected);
   if (!isSelected) return Message.warning("请选择至少一件商品");
+  console.log(cartStore.isLogin);
   if (cartStore.isLogin) {
     await router.push("/member/checkout");
+  } else {
+    await Confirm("小兔仙", "是否登录？");
+    await router.push("/login?redirect=" + route.fullPath);
   }
-  await Confirm("小兔仙", "是否登录？");
-  await router.push("/login?redirect=" + route.fullPath);
 };
 </script>
 
