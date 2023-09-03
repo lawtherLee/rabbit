@@ -1,4 +1,42 @@
-<script lang="ts" name="XtxPayPage" setup></script>
+<script lang="ts" name="XtxPayPage" setup>
+import request, { baseURL } from "@/utils/request.ts";
+import { useRoute, useRouter } from "vue-router";
+import { IAxiosRes } from "@/types/data";
+import { OrderPayInfo } from "@/types/checkout.ts";
+import { ref, watch } from "vue";
+import { useCountDown } from "@/hooks";
+import dayjs from "dayjs";
+import Message from "@/components/message/index.ts";
+
+const router = useRouter();
+const route = useRoute();
+const order = ref<OrderPayInfo>({} as OrderPayInfo);
+const showTime = ref(0);
+const getOrderInfo = async () => {
+  const id = route.query.id;
+  const res = await request.get<IAxiosRes<OrderPayInfo>>("/member/order/" + id);
+  order.value = res.data.result;
+  const { time, start } = useCountDown(order.value.countdown);
+  watch(time, (val) => {
+    if (val <= 0) {
+      router.replace("/cart");
+      Message.error("订单超时");
+      return;
+    }
+    showTime.value = val;
+  });
+  start();
+};
+getOrderInfo();
+
+const formatCountDown = (time: number) => {
+  return dayjs.unix(time).format("mm分ss");
+};
+
+// 支付宝支付
+const redirectURL = "http://www.corho.com:8080/#/pay/callback";
+const aliPay = `${baseURL}/pay/aliPay?orderId=${route.query.id}&redirect=${redirectURL}`;
+</script>
 <template>
   <div class="xtx-pay-page">
     <div class="container">
@@ -14,13 +52,13 @@
           <p>订单提交成功！请尽快完成支付。</p>
           <p>
             支付还剩
-            <span>24分59秒</span>
+            <span>{{ formatCountDown(showTime) }}</span>
             , 超时后将取消订单
           </p>
         </div>
         <div class="amount">
           <span>应付总额：</span>
-          <span>¥5673.00</span>
+          <span>¥{{ order.totalMoney?.toFixed(2) }}</span>
         </div>
       </div>
       <!-- 付款方式 -->
@@ -29,7 +67,7 @@
         <div class="item">
           <p>支付平台</p>
           <a class="btn wx" href="javascript:"></a>
-          <a class="btn alipay" href="javascript:"></a>
+          <a :href="aliPay" class="btn alipay"></a>
         </div>
         <div class="item">
           <p>支付方式</p>

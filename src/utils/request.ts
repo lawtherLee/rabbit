@@ -3,8 +3,10 @@ import axios, { AxiosError } from "axios";
 import Message from "@/components/message/index.ts";
 import useStore from "@/store";
 
+export const baseURL = "http://pcapi-xiaotuxian-front.itheima.net/";
+// export const baseURL = "http://apipc-xiaotuxian-front.itheima.net/";
 const instance = axios.create({
-  baseURL: "http://pcapi-xiaotuxian-front.itheima.net/",
+  baseURL,
   // baseURL: "http://apipc-xiaotuxian-front.itheima.net/",
 });
 
